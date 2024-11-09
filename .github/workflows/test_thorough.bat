@@ -2,18 +2,13 @@ set grass=%1
 set python=%2
 
 
+call %grass% --exec g.region s=0 n=90 w=0 e=100 b=0 t=1 rows=3 cols=3 res=10
 
-call %grass% --tmp-project XY --exec g.download.project url=https://grass.osgeo.org/sampledata/north_carolina/nc_spm_full_v2alpha2.tar.gz path=%USERPROFILE%
+call %grass% --exec r.mapcalc expr="a = int(row())"
 
-call %grass% --tmp-project XY --exec g.region s=0 n=90 w=0 e=100 b=0 t=1 rows=3 cols=3 res=10
+call %grass% --exec r.colors map=a color=elevation
 
-call %grass% --tmp-project XY --exec r.mapcalc expr="a = int(row())"
-
-call %grass% --tmp-project XY --exec r.colors map="a" color="elevation"
-
-call %grass% --tmp-project XY --exec r.colors map="a" color="elevation"
-
-call %grass% --tmp-project XY --exec r.colors.out map="a" rules="-" format="json" color_format="hsv"
+call %grass% --exec r.colors.out map="a" rules="-" format="json" color_format="hsv"
 
 
 
