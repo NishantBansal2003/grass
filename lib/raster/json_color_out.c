@@ -118,7 +118,7 @@ static void set_color(int r, int g, int b, ColorFormat clr_frmt,
         json_object_set_string(color_object, "triplet", color_string);
         break;
     }
-    fprintf(stdout,"\nColors string is %s\n", color_string);
+    fprintf(stdout, "\nColors string is %s\n", color_string);
 }
 
 /*!
@@ -242,7 +242,7 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
         }
         JSON_Object *nv_object = json_object(nv_value);
         json_object_set_string(nv_object, "value", "nv");
-        fprintf(stdout,"\NV string is %s\n", "nv");
+        fprintf(stdout, "\nNV string is %s\n", "nv");
         set_color(r, g, b, clr_frmt, nv_object);
         json_array_append_value(root_array, nv_value);
 
@@ -257,7 +257,7 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
         }
         JSON_Object *default_object = json_object(default_value);
         json_object_set_string(default_object, "value", "default");
-        fprintf(stdout,"\DEFAULT string is %s\n", "default");
+        fprintf(stdout, "\nDEFAULT string is %s\n", "default");
         set_color(r, g, b, clr_frmt, default_object);
         json_array_append_value(root_array, default_value);
     }
