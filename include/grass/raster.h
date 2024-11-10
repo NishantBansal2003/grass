@@ -232,6 +232,8 @@ struct FP_stats {
     unsigned long total;
 };
 
+typedef enum { RGB, HEX, HSV, TRIPLET } ColorFormat;
+
 struct GDAL_link;
 struct R_vrt;
 
