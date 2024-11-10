@@ -98,27 +98,41 @@ static void set_color(int r, int g, int b, ColorFormat clr_frmt,
     case RGB:
         snprintf(color_string, sizeof(color_string), "rgb(%d, %d, %d)", r, g,
                  b);
-        json_object_set_string(color_object, "rgb", color_string);
+        if (json_object_set_string(color_object, "rgb", color_string) !=
+            JSONSuccess) {
+            G_fatal_error(_("Failed to push values to the json"));
+        };
         break;
 
     case HEX:
         snprintf(color_string, sizeof(color_string), "#%02X%02X%02X", r, g, b);
-        json_object_set_string(color_object, "hex", color_string);
+        if (json_object_set_string(color_object, "hex", color_string) !=
+            JSONSuccess) {
+            G_fatal_error(_("Failed to push values to the json"));
+        };
+
         break;
 
     case HSV:
         rgb_to_hsv(r, g, b, &h, &s, &v);
         snprintf(color_string, sizeof(color_string), "hsv(%d, %d, %d)", (int)h,
                  (int)s, (int)v);
-        json_object_set_string(color_object, "hsv", color_string);
+        if (json_object_set_string(color_object, "hsv", color_string) !=
+            JSONSuccess) {
+            G_fatal_error(_("Failed to push values to the json"));
+        };
+
         break;
 
     case TRIPLET:
         snprintf(color_string, sizeof(color_string), "%d:%d:%d", r, g, b);
-        json_object_set_string(color_object, "triplet", color_string);
+        if (json_object_set_string(color_object, "triplet", color_string) !=
+            JSONSuccess) {
+            G_fatal_error(_("Failed to push values to the json"));
+        };
         break;
     }
-    fprintf(stdout, "\nColors string is %s\n", color_string);
+    fprintf(stdout, "Colors string is %s\n", color_string);
 }
 
 /*!
