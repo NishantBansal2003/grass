@@ -89,7 +89,7 @@ static void rgb_to_hsv(int r, int g, int b, float *h, float *s, float *v)
    \param color_object pointer to the JSON object
  */
 static void set_color(int r, int g, int b, ColorFormat clr_frmt,
-                      JSON_Object *color_object)
+                      JSON_Value *color_value)
 {
     char color_string[COLOR_STRING_LENGTH];
     float h, s, v;
@@ -99,13 +99,15 @@ static void set_color(int r, int g, int b, ColorFormat clr_frmt,
         snprintf(color_string, sizeof(color_string), "rgb(%d, %d, %d)", r, g,
                  b);
         fprintf(stdout, "JSON Append status is %d\n",
-                json_object_set_string(color_object, "rgb", color_string));
+                json_object_set_string(json_object(color_value), "rgb",
+                                       color_string));
         break;
 
     case HEX:
         snprintf(color_string, sizeof(color_string), "#%02X%02X%02X", r, g, b);
         fprintf(stdout, "JSON Append status is %d\n",
-                json_object_set_string(color_object, "hex", color_string));
+                json_object_set_string(json_object(color_value), "hex",
+                                       color_string));
         break;
 
     case HSV:
@@ -113,13 +115,15 @@ static void set_color(int r, int g, int b, ColorFormat clr_frmt,
         snprintf(color_string, sizeof(color_string), "hsv(%d, %d, %d)", (int)h,
                  (int)s, (int)v);
         fprintf(stdout, "JSON Append status is %d\n",
-                json_object_set_string(color_object, "hsv", color_string));
+                json_object_set_string(json_object(color_value), "hsv",
+                                       color_string));
         break;
 
     case TRIPLET:
         snprintf(color_string, sizeof(color_string), "%d:%d:%d", r, g, b);
         fprintf(stdout, "JSON Append status is %d\n",
-                json_object_set_string(color_object, "triplet", color_string));
+                json_object_set_string(json_object(color_value), "triplet",
+                                       color_string));
         break;
     }
     fprintf(stdout, "Colors format is %u\n", clr_frmt);
@@ -161,16 +165,15 @@ static void write_json_rule(DCELL *val, DCELL *min, DCELL *max, int r, int g,
         close_file(fp);
         G_fatal_error(_("Failed to initialize JSON object. Out of memory?"));
     }
-    JSON_Object *color_object = json_object(color_value);
 
     // Set the value as a percentage if requested, otherwise set it as-is
     if (perc)
-        json_object_set_number(color_object, "value",
+        json_object_set_number(json_object(color_value), "value",
                                100 * (*val - *min) / (*max - *min));
     else
-        json_object_set_number(color_object, "value", *val);
+        json_object_set_number(json_object(color_value), "value", *val);
 
-    set_color(r, g, b, clr_frmt, color_object);
+    set_color(r, g, b, clr_frmt, color_value);
 
     json_array_append_value(root_array, color_value);
 }
