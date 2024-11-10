@@ -248,11 +248,11 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
             G_fatal_error(
                 _("Failed to initialize JSON object. Out of memory?"));
         }
-        JSON_Object *nv_object = json_object(nv_value);
+        // JSON_Object *nv_object = json_object(nv_value);
         fprintf(stdout, "JSON Append status is %d\n",
-                json_object_set_string(nv_object, "value", "nv"));
+                json_object_set_string(json_object(nv_value), "value", "nv"));
         fprintf(stdout, "\nNV string is %s\n", "nv");
-        set_color(r, g, b, clr_frmt, nv_object);
+        set_color(r, g, b, clr_frmt, nv_value);
         json_array_append_value(root_array, nv_value);
 
         // Get RGB color for default values and create JSON entry
@@ -264,11 +264,12 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
             G_fatal_error(
                 _("Failed to initialize JSON object. Out of memory?"));
         }
-        JSON_Object *default_object = json_object(default_value);
+        // JSON_Object *default_object = json_object(default_value);
         fprintf(stdout, "JSON Append status is %d\n",
-                json_object_set_string(default_object, "value", "default"));
+                json_object_set_string(json_object(default_value), "value",
+                                       "default"));
         fprintf(stdout, "\nDEFAULT string is %s\n", "default");
-        set_color(r, g, b, clr_frmt, default_object);
+        set_color(r, g, b, clr_frmt, default_value);
         json_array_append_value(root_array, default_value);
     }
 
