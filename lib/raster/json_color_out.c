@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <grass/parson.h>
 #include <grass/gis.h>
 #include <grass/glocale.h>
-#include <grass/parson.h>
 #include <grass/raster.h>
 
 #define COLOR_STRING_LENGTH 30
@@ -166,8 +166,8 @@ static void write_json_rule(DCELL *val, DCELL *min, DCELL *max, int r, int g,
    \param perc TRUE for percentage output
    \param clr_frmt color format to be used (RBG, HEX, HSV, TRIPLET).
  */
-void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max, FILE *fp,
-                       int perc, ColorFormat clr_frmt)
+void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
+                            FILE *fp, int perc, ColorFormat clr_frmt)
 {
     JSON_Value *root_value = json_value_init_array();
     if (root_value == NULL) {
