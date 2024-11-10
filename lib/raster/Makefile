@@ -2,6 +2,7 @@ MODULE_TOPDIR = ../..
 
 LIB = RASTER
 EXTRA_INC =
+EXTRA_LIBS= $(PARSONLIB) $(GISLIB) $(GPROJLIB) $(MATHLIB)
 
 include $(MODULE_TOPDIR)/include/Make/Vars.make
 include $(MODULE_TOPDIR)/include/Make/Lib.make
