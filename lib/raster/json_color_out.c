@@ -98,40 +98,31 @@ static void set_color(int r, int g, int b, ColorFormat clr_frmt,
     case RGB:
         snprintf(color_string, sizeof(color_string), "rgb(%d, %d, %d)", r, g,
                  b);
-        if (json_object_set_string(color_object, "rgb", color_string) !=
-            JSONSuccess) {
-            G_fatal_error(_("Failed to push values to the json"));
-        };
+        fprintf(stdout, "JSON Append status is %s\n",
+                json_object_set_string(color_object, "rgb", color_string));
         break;
 
     case HEX:
         snprintf(color_string, sizeof(color_string), "#%02X%02X%02X", r, g, b);
-        if (json_object_set_string(color_object, "hex", color_string) !=
-            JSONSuccess) {
-            G_fatal_error(_("Failed to push values to the json"));
-        };
-
+        fprintf(stdout, "JSON Append status is %s\n",
+                json_object_set_string(color_object, "hex", color_string));
         break;
 
     case HSV:
         rgb_to_hsv(r, g, b, &h, &s, &v);
         snprintf(color_string, sizeof(color_string), "hsv(%d, %d, %d)", (int)h,
                  (int)s, (int)v);
-        if (json_object_set_string(color_object, "hsv", color_string) !=
-            JSONSuccess) {
-            G_fatal_error(_("Failed to push values to the json"));
-        };
-
+        fprintf(stdout, "JSON Append status is %s\n",
+                json_object_set_string(color_object, "hsv", color_string));
         break;
 
     case TRIPLET:
         snprintf(color_string, sizeof(color_string), "%d:%d:%d", r, g, b);
-        if (json_object_set_string(color_object, "triplet", color_string) !=
-            JSONSuccess) {
-            G_fatal_error(_("Failed to push values to the json"));
-        };
+        fprintf(stdout, "JSON Append status is %s\n",
+                json_object_set_string(color_object, "triplet", color_string));
         break;
     }
+    fprintf(stdout, "Colors format is %s\n", clr_frmt);
     fprintf(stdout, "Colors string is %s\n", color_string);
 }
 
@@ -255,7 +246,8 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
                 _("Failed to initialize JSON object. Out of memory?"));
         }
         JSON_Object *nv_object = json_object(nv_value);
-        json_object_set_string(nv_object, "value", "nv");
+        fprintf(stdout, "JSON Append status is %s\n",
+                json_object_set_string(nv_object, "value", "nv"));
         fprintf(stdout, "\nNV string is %s\n", "nv");
         set_color(r, g, b, clr_frmt, nv_object);
         json_array_append_value(root_array, nv_value);
@@ -270,7 +262,8 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
                 _("Failed to initialize JSON object. Out of memory?"));
         }
         JSON_Object *default_object = json_object(default_value);
-        json_object_set_string(default_object, "value", "default");
+        fprintf(stdout, "JSON Append status is %s\n",
+                json_object_set_string(default_object, "value", "default"));
         fprintf(stdout, "\nDEFAULT string is %s\n", "default");
         set_color(r, g, b, clr_frmt, default_object);
         json_array_append_value(root_array, default_value);
