@@ -17,6 +17,7 @@
  */
 static void close_file(FILE *fp)
 {
+    fflush(fp);
     if (fp != stdout)
         fclose(fp);
 }
