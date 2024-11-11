@@ -144,12 +144,15 @@ static void write_json_rule(DCELL *val, DCELL *min, DCELL *max, int r, int g,
     }
     JSON_Object *color_object = json_object(color_value);
 
+    char formatted_value[20];
     // Set the value as a percentage if requested, otherwise set it as-is
     if (perc)
-        json_object_set_number(color_object, "value",
-                               100 * (*val - *min) / (*max - *min));
+        snprintf(formatted_value, sizeof(formatted_value), "%g%%",
+                 100 * (*val - *min) / (*max - *min));
     else
-        json_object_set_number(color_object, "value", *val);
+        snprintf(formatted_value, sizeof(formatted_value), "%g", *val);
+
+    json_object_set_string(color_object, "value", formatted_value);
 
     set_color(r, g, b, clr_frmt, color_object);
 
