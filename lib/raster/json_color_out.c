@@ -87,13 +87,13 @@ static void set_color(int r, int g, int b, ColorFormat clr_frmt,
         snprintf(color_string, sizeof(color_string), "rgb(%d, %d, %d)", r, g,
                  b);
         color_string[sizeof(color_string) - 1] = '\0';
-        json_object_set_string(color_object, "rgb", color_string);
+        json_object_set_string_parson(color_object, "rgb", color_string);
         break;
 
     case HEX:
         snprintf(color_string, sizeof(color_string), "#%02X%02X%02X", r, g, b);
         color_string[sizeof(color_string) - 1] = '\0';
-        json_object_set_string(color_object, "hex", color_string);
+        json_object_set_string_parson(color_object, "hex", color_string);
         break;
 
     case HSV:
@@ -101,13 +101,13 @@ static void set_color(int r, int g, int b, ColorFormat clr_frmt,
         snprintf(color_string, sizeof(color_string), "hsv(%d, %d, %d)", (int)h,
                  (int)s, (int)v);
         color_string[sizeof(color_string) - 1] = '\0';
-        json_object_set_string(color_object, "hsv", color_string);
+        json_object_set_string_parson(color_object, "hsv", color_string);
         break;
 
     case TRIPLET:
         snprintf(color_string, sizeof(color_string), "%d:%d:%d", r, g, b);
         color_string[sizeof(color_string) - 1] = '\0';
-        json_object_set_string(color_object, "triplet", color_string);
+        json_object_set_string_parson(color_object, "triplet", color_string);
         break;
     }
 }
@@ -158,7 +158,7 @@ static void write_json_rule(DCELL *val, DCELL *min, DCELL *max, int r, int g,
         snprintf(formatted_value, sizeof(formatted_value), "%g", *val);
     formatted_value[sizeof(formatted_value) - 1] = '\0';
 
-    json_object_set_string(color_object, "value", formatted_value);
+    json_object_set_string_parson(color_object, "value", formatted_value);
 
     set_color(r, g, b, clr_frmt, color_object);
 
@@ -236,7 +236,7 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
                 _("Failed to initialize JSON object. Out of memory?"));
         }
         JSON_Object *nv_object = json_object(nv_value);
-        json_object_set_string(nv_object, "value", "nv");
+        json_object_set_string_parson(nv_object, "value", "nv");
         set_color(r, g, b, clr_frmt, nv_object);
         json_array_append_value(root_array, nv_value);
 
@@ -250,7 +250,7 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
                 _("Failed to initialize JSON object. Out of memory?"));
         }
         JSON_Object *default_object = json_object(default_value);
-        json_object_set_string(default_object, "value", "default");
+        json_object_set_string_parson(default_object, "value", "default");
         set_color(r, g, b, clr_frmt, default_object);
         json_array_append_value(root_array, default_value);
     }
