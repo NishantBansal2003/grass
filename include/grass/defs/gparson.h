@@ -1,7 +1,6 @@
 #ifndef GRASS_GPARSONDEFS_H
 #define GRASS_GPARSONDEFS_H
 
-#include <grass/parson.h>
 /* *************************************************************** */
 /* ***** WRAPPER FOR PARSON FUNCTIONS USED IN GRASS ************** */
 /* *************************************************************** */
