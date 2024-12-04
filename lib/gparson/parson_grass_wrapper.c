@@ -102,18 +102,6 @@ JSON_Status G_json_object_set_null(JSON_Object *object, const char *name)
     return json_object_set_null(object, name);
 }
 
-JSON_Status G_json_object_dotset_string(JSON_Object *object, const char *name,
-                                        const char *string)
-{
-    return json_object_dotset_string(object, name, string);
-}
-
-JSON_Status G_json_object_dotset_number(JSON_Object *object, const char *name,
-                                        double number)
-{
-    return json_object_dotset_number(object, name, number);
-}
-
 /* JSON Array Functions */
 JSON_Status G_json_array_append_value(JSON_Array *array, JSON_Value *value)
 {
@@ -165,25 +153,22 @@ JSON_Value *G_json_array_get_value(const JSON_Array *array, size_t index)
 {
     return json_array_get_value(array, index);
 }
+const char *G_json_array_get_string(const JSON_Array *array, size_t index)
+{
+    return json_array_get_string(array, index);
+}
+double G_json_array_get_number(const JSON_Array *array, size_t index)
+{
+    return json_array_get_number(array, index);
+}
+int G_json_array_get_boolean(const JSON_Array *array, size_t index)
+{
+    return json_array_get_boolean(array, index);
+}
 
 JSON_Value *G_json_value_init_array(void)
 {
     return json_value_init_array();
-}
-
-JSON_Value *G_json_value_init_string(const char *string)
-{
-    return json_value_init_string(string);
-}
-
-JSON_Value *G_json_value_init_number(double number)
-{
-    return json_value_init_number(number);
-}
-
-JSON_Value *G_json_value_init_boolean(int boolean)
-{
-    return json_value_init_boolean(boolean);
 }
 
 void G_json_value_free(JSON_Value *value)

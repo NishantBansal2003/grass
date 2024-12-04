@@ -47,9 +47,9 @@ int test_gparson_wrapper()
 {
     int sum = 0;
     JSON_Value *value = NULL;
-    JSON_Value *testValue = NULL;
     JSON_Object *object = NULL;
     JSON_Array *array = NULL;
+    char *serialized_string;
 
     G_message("\t * testing json object initialization\n");
     value = G_json_value_init_object();
@@ -70,35 +70,6 @@ int test_gparson_wrapper()
     else {
         G_json_value_free(value);
     }
-
-    // G_message("\t * testing json string initialization\n");
-    // value = G_json_value_init_string("test string");
-    // if (value == NULL ||
-    //     strcmp(G_json_object_get_string(G_json_value_get_object(value),
-    //                                     "test string"),
-    //            "test string") != 0) {
-    //     G_warning("G_json_value_init_string failed!");
-    //     sum++;
-    // }
-    // G_json_value_free(value);
-
-    G_message("\t * testing json number initialization\n");
-    testValue = G_json_value_init_number(42.00);
-    if (testValue == NULL || json_value_get_type(testValue) != JSONNumber ||
-        json_value_get_number(testValue) != 42.00) {
-        G_warning("G_json_value_init_number failed!");
-        sum++;
-    }
-    G_json_value_free(testValue);
-
-    G_message("\t * testing json boolean initialization\n");
-    testValue = G_json_value_init_boolean(1);
-    if (testValue == NULL || json_value_get_type(testValue) != JSONBoolean ||
-        json_value_get_boolean(testValue) != 1) {
-        G_warning("G_json_value_init_boolean failed!");
-        sum++;
-    }
-    G_json_value_free(testValue);
 
     G_message("\t * testing json object set and get functions\n");
     value = G_json_value_init_object();
@@ -174,87 +145,67 @@ int test_gparson_wrapper()
     }
     G_json_value_free(value);
 
-    // G_message("\t * testing json array append value\n");
-    // value = G_json_value_init_array();
-    // array = G_json_value_get_array(value);
-    // if (G_json_array_append_value(array, G_json_value_init_string("item")) !=
-    //     JSONSuccess) {
-    //     G_warning("G_json_array_append_value failed!");
-    //     sum++;
-    // }
-    // if (strcmp(G_json_array_get_string(array, 0), "item") != 0) {
-    //     G_warning("G_json_array_append_value or retrieval failed!");
-    //     sum++;
-    // }
-    // G_json_value_free(value);
+    G_message("\t * testing json array append value\n");
+    value = G_json_value_init_array();
+    array = G_json_array(value);
+    if (G_json_array_append_value(array, G_json_value_init_object()) !=
+        JSONSuccess) {
+        G_warning("G_json_array_append_value failed!");
+        sum++;
+    }
+    G_json_value_free(value);
 
-    // G_message("\t * testing json array append number\n");
-    // value = G_json_value_init_array();
-    // array = G_json_value_get_array(value);
-    // if (G_json_array_append_number(array, 123.45) != JSONSuccess) {
-    //     G_warning("G_json_array_append_number failed!");
-    //     sum++;
-    // }
-    // if (G_json_array_get_number(array, 0) != 123.45) {
-    //     G_warning("G_json_array_append_number or retrieval failed!");
-    //     sum++;
-    // }
-    // G_json_value_free(value);
+    G_message("\t * testing json array append number\n");
+    value = G_json_value_init_array();
+    array = G_json_array(value);
+    if (G_json_array_append_number(array, 123.45) != JSONSuccess) {
+        G_warning("G_json_array_append_number failed!");
+        sum++;
+    }
+    if (G_json_array_get_number(array, 0) != 123.45) {
+        G_warning("G_json_array_append_number or retrieval failed!");
+        sum++;
+    }
+    G_json_value_free(value);
 
-    // G_message("\t * testing json array append boolean\n");
-    // value = G_json_value_init_array();
-    // array = G_json_value_get_array(value);
-    // if (G_json_array_append_boolean(array, 1) != JSONSuccess) {
-    //     G_warning("G_json_array_append_boolean failed!");
-    //     sum++;
-    // }
-    // if (G_json_array_get_boolean(array, 0) != 1) {
-    //     G_warning("G_json_array_append_boolean or retrieval failed!");
-    //     sum++;
-    // }
-    // G_json_value_free(value);
+    G_message("\t * testing json array append boolean\n");
+    value = G_json_value_init_array();
+    array = G_json_array(value);
+    if (G_json_array_append_boolean(array, 1) != JSONSuccess) {
+        G_warning("G_json_array_append_boolean failed!");
+        sum++;
+    }
+    if (G_json_array_get_boolean(array, 0) != 1) {
+        G_warning("G_json_array_append_boolean or retrieval failed!");
+        sum++;
+    }
+    G_json_value_free(value);
 
-    // G_message("\t * testing json array append null\n");
-    // value = G_json_value_init_array();
-    // array = G_json_value_get_array(value);
-    // if (G_json_array_append_null(array) != JSONSuccess) {
-    //     G_warning("G_json_array_append_null failed!");
-    //     sum++;
-    // }
-    // if (G_json_array_get_value(array, 0)->type != JSONNull) {
-    //     G_warning("G_json_array_append_null or retrieval failed!");
-    //     sum++;
-    // }
-    // G_json_value_free(value);
+    G_message("\t * testing json array append null\n");
+    value = G_json_value_init_array();
+    array = G_json_array(value);
+    if (G_json_array_append_null(array) != JSONSuccess) {
+        G_warning("G_json_array_append_null failed!");
+        sum++;
+    }
+    if (json_value_get_type(G_json_array_get_value(array, 0)) != JSONNull) {
+        G_warning("G_json_array_append_null or retrieval failed!");
+        sum++;
+    }
+    G_json_value_free(value);
 
-    // G_message("\t * testing json object dotset number\n");
-    // value = G_json_value_init_object();
-    // object = G_json_value_get_object(value);
-    // if (G_json_object_dotset_number(object, "dot.number", 123.45) !=
-    //     JSONSuccess) {
-    //     G_warning("G_json_object_dotset_number failed!");
-    //     sum++;
-    // }
-    // if (G_json_object_dotget_number(object, "dot.number") != 123.45) {
-    //     G_warning("G_json_object_dotset_number or retrieval failed!");
-    //     sum++;
-    // }
-    // G_json_value_free(value);
-
-    // G_message("\t * testing json object dotset string\n");
-    // value = G_json_value_init_object();
-    // object = G_json_value_get_object(value);
-    // if (G_json_object_dotset_string(object, "nested.key", "nested_value") !=
-    //     JSONSuccess) {
-    //     G_warning("G_json_object_dotset_string failed!");
-    //     sum++;
-    // }
-    // if (strcmp(G_json_object_get_string(object, "nested.key"),
-    //            "nested_value") != 0) {
-    //     G_warning("G_json_object_dotset_string or retrieval failed!");
-    //     sum++;
-    // }
-    // G_json_value_free(value);
+    G_message("\t * testing json array append string\n");
+    value = G_json_value_init_array();
+    array = G_json_array(value);
+    if (G_json_array_append_string(array, "array_string") != JSONSuccess) {
+        G_warning("G_json_array_append_null failed!");
+        sum++;
+    }
+    if (strcmp(G_json_array_get_string(array, 0), "array_string") != 0) {
+        G_warning("G_json_array_append_null or retrieval failed!");
+        sum++;
+    }
+    G_json_value_free(value);
 
     G_message("\t * testing json object set and get number functions\n");
     value = G_json_value_init_object();
@@ -269,6 +220,35 @@ int test_gparson_wrapper()
             "G_json_object_set_number or G_json_object_get_number failed!");
         sum++;
     }
+    G_json_value_free(value);
+
+    G_message("\t * testing json object set and get boolean functions\n");
+    value = G_json_value_init_object();
+    object = G_json_value_get_object(value);
+    if (G_json_object_set_boolean(object, "boolean_key", 1) != JSONSuccess) {
+        G_warning("G_json_object_set_boolean failed!");
+        sum++;
+    }
+    int booleanValue = G_json_object_get_boolean(object, "boolean_key");
+    if (booleanValue != 1) {
+        G_warning(
+            "G_json_object_set_boolean or G_json_object_get_boolean failed!");
+        sum++;
+    }
+    G_json_value_free(value);
+
+    G_message("\t * testing JSON serialization\n");
+    value = G_json_value_init_object();
+    object = G_json_value_get_object(value);
+    G_json_object_set_string(object, "key", "value");
+
+    serialized_string = G_json_serialize_to_string_pretty(value);
+    if (!serialized_string || strstr(serialized_string, "value") == NULL) {
+        G_warning("Error in JSON serialization");
+        sum++;
+    }
+
+    G_json_free_serialized_string(serialized_string);
     G_json_value_free(value);
 
     return sum;
