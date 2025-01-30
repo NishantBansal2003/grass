@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     struct GModule *module;
 
     enum OutputFormat format;
-    enum ColorFormat color_format;
+    enum ColorOutput color_format;
     JSON_Value *root_value;
     JSON_Array *root_array;
 
@@ -393,7 +393,7 @@ void print_json(JSON_Value *root_value)
 }
 
 int print_label(long x, enum OutputFormat format, JSON_Array *root_array,
-                enum ColorFormat color_format, struct Colors *colors)
+                enum ColorOutput color_format, struct Colors *colors)
 {
     char *label, color[30];
     JSON_Value *category_value;
@@ -427,7 +427,7 @@ int print_label(long x, enum OutputFormat format, JSON_Array *root_array,
 }
 
 int print_d_label(double x, enum OutputFormat format, JSON_Array *root_array,
-                  enum ColorFormat color_format, struct Colors *colors)
+                  enum ColorOutput color_format, struct Colors *colors)
 {
     char *label, tmp[40], color[30];
     DCELL dtmp;
@@ -489,7 +489,7 @@ int scan_vals(const char *s, double *x)
     return 0;
 }
 
-void get_color(enum ColorFormat color_format, int red, int grn, int blu,
+void get_color(enum ColorOutput color_format, int red, int grn, int blu,
                char *color)
 {
     switch (color_format) {
@@ -509,7 +509,7 @@ void get_color(enum ColorFormat color_format, int red, int grn, int blu,
     }
 }
 
-void scan_colors(long x, struct Colors *colors, enum ColorFormat color_format,
+void scan_colors(long x, struct Colors *colors, enum ColorOutput color_format,
                  char *color)
 {
     int red, grn, blu;
@@ -522,7 +522,7 @@ void scan_colors(long x, struct Colors *colors, enum ColorFormat color_format,
 }
 
 void scan_d_colors(double x, struct Colors *colors,
-                   enum ColorFormat color_format, char *color)
+                   enum ColorOutput color_format, char *color)
 {
     int red, grn, blu;
 
