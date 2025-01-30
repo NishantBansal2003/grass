@@ -35,8 +35,8 @@ int print_d_label(double, enum OutputFormat, JSON_Array *, enum ColorFormat,
                   struct Colors *);
 int scan_cats(const char *, long *, long *);
 int scan_vals(const char *, double *);
+void scan_colors(long, struct Colors *, enum ColorFormat, char *);
+void scan_d_colors(double, struct Colors *, enum ColorFormat, char *);
 void get_color(enum ColorFormat, int, int, int, char *);
-char *scan_colors(long, struct Colors *, enum ColorFormat, char *);
-char *scan_d_colors(double, struct Colors *, enum ColorFormat, char *);
 
 #endif /* __LOCAL_PROTO_H__ */

@@ -321,8 +321,9 @@ int main(int argc, char *argv[])
                 name, mapset);
     }
 
-    if (Rast_read_colors(name, mapset, &colors) < 0)
-        G_fatal_error("Unable to read colors for input map %s", name);
+    if (color_format != NONE)
+        if (Rast_read_colors(name, mapset, &colors) < 0)
+            G_fatal_error("Unable to read colors for input map %s", name);
 
     /* describe the category labels */
     /* if no cats requested, use r.describe to get the cats */
@@ -394,8 +395,7 @@ void print_json(JSON_Value *root_value)
 int print_label(long x, enum OutputFormat format, JSON_Array *root_array,
                 enum ColorFormat color_format, struct Colors *colors)
 {
-    char *label;
-    char color[30];
+    char *label, color[30];
     JSON_Value *category_value;
     JSON_Object *category;
 
@@ -429,8 +429,7 @@ int print_label(long x, enum OutputFormat format, JSON_Array *root_array,
 int print_d_label(double x, enum OutputFormat format, JSON_Array *root_array,
                   enum ColorFormat color_format, struct Colors *colors)
 {
-    char *label, tmp[40];
-    char color[30];
+    char *label, tmp[40], color[30];
     DCELL dtmp;
     JSON_Value *category_value;
     JSON_Object *category;
@@ -510,28 +509,26 @@ void get_color(enum ColorFormat color_format, int red, int grn, int blu,
     }
 }
 
-char *scan_colors(long x, struct Colors *colors, enum ColorFormat color_format,
-                  char *color)
+void scan_colors(long x, struct Colors *colors, enum ColorFormat color_format,
+                 char *color)
 {
     int red, grn, blu;
 
     if (!Rast_get_c_color((CELL *)&x, &red, &grn, &blu, colors)) {
-        return "*";
+        strcpy(color, "*");
     }
-
-    get_color(color_format, red, grn, blu, color);
-    return color;
+    else
+        get_color(color_format, red, grn, blu, color);
 }
 
-char *scan_d_colors(double x, struct Colors *colors,
-                    enum ColorFormat color_format, char *color)
+void scan_d_colors(double x, struct Colors *colors,
+                   enum ColorFormat color_format, char *color)
 {
     int red, grn, blu;
 
     if (!Rast_get_d_color((DCELL *)&x, &red, &grn, &blu, colors)) {
-        return "*";
+        strcpy(color, "*");
     }
-
-    get_color(color_format, red, grn, blu, color);
-    return color;
+    else
+        get_color(color_format, red, grn, blu, color);
 }
