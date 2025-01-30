@@ -22,7 +22,6 @@
 
 enum OutputFormat { PLAIN, JSON };
 enum ColorOutput { NONE, RGB_OUTPUT, HEX_OUTPUT, TRIPLET_OUTPUT };
-;
 
 /* cats.c */
 int get_cats(const char *, const char *);
