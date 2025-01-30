@@ -21,7 +21,12 @@ def test_r_category_plain_output(simple_dataset):
         stdin=input_data,
         env=session.env,
     )
-    result = gs.read_command("r.category", map="test", separator=",", env=session.env)
+
+    # Replacing '\r' because Windows uses '\r\n' for line endings, but we
+    # want to remove the '\r' (carriage return) to standardize line endings.
+    result = gs.read_command(
+        "r.category", map="test", separator=",", env=session.env
+    ).replace("\r", "")
 
     expected_output = "1,trees\n2,water\n"
     assert result == expected_output, f"Expected {expected_output}, but got {result}"
@@ -35,7 +40,11 @@ def test_r_category_default_separator(simple_dataset):
     gs.write_command(
         "r.category", map="test", rules="-", stdin=input_data, env=session.env
     )
-    result = gs.read_command("r.category", map="test", separator="tab", env=session.env)
+
+    # remove the '\r' (carriage return) to standardize line endings.
+    result = gs.read_command(
+        "r.category", map="test", separator="tab", env=session.env
+    ).replace("\r", "")
 
     expected_output = "1\ttrees\n2\twater\n"
     assert result == expected_output, f"Expected {expected_output}, but got {result}"
@@ -54,7 +63,11 @@ def test_r_category_with_range(simple_dataset):
         stdin=input_data,
         env=session.env,
     )
-    result = gs.read_command("r.category", map="test_1", separator=" ", env=session.env)
+
+    # remove the '\r' (carriage return) to standardize line endings.
+    result = gs.read_command(
+        "r.category", map="test_1", separator=" ", env=session.env
+    ).replace("\r", "")
 
     expected_output = "1 trees\n2 buildings\n3 buildings\n4 buildings\n"
     assert result == expected_output, f"Expected {expected_output}, but got {result}"
@@ -79,7 +92,9 @@ def test_r_category_float_map(simple_dataset):
         separator=" ",
         vals=[1, 1.1, 2.1, 4],
         env=session.env,
-    )
+    ).replace(
+        "\r", ""
+    )  # remove the '\r' (carriage return) to standardize line endings.
 
     expected_output = "1 trees\n1.1 trees\n2.1 buildings\n4 \n"
     assert result == expected_output, f"Expected {expected_output}, but got {result}"
@@ -106,7 +121,9 @@ def test_r_category_separator_variants(simple_dataset):
     for sep, expected in zip(separators, expected_outputs):
         result = gs.read_command(
             "r.category", map="test", separator=sep, env=session.env
-        )
+        ).replace(
+            "\r", ""
+        )  # remove the '\r' (carriage return) to standardize line endings.
         assert (
             result == expected
         ), f"Expected {expected}, but got {result} for separator '{sep}'"
@@ -142,7 +159,9 @@ def test_r_category_input_separators(simple_dataset):
         )
         result = gs.read_command(
             "r.category", map="test", separator=out_sep, env=session.env
-        )
+        ).replace(
+            "\r", ""
+        )  # remove the '\r' (carriage return) to standardize line endings.
         assert (
             result == expected
         ), f"Expected {expected}, but got {result} for input separator '{inp_sep}'"
@@ -176,7 +195,9 @@ def test_r_category_multiword_input(simple_dataset):
         )
         result = gs.read_command(
             "r.category", map="test", separator=out_sep, env=session.env
-        )
+        ).replace(
+            "\r", ""
+        )  # remove the '\r' (carriage return) to standardize line endings.
         assert (
             result == expected
         ), f"Expected {expected}, but got {result} for input '{data}'"
@@ -225,10 +246,9 @@ def test_r_category_json_output(simple_dataset):
         stdin=input_data,
         env=session.env,
     )
-    result = gs.read_command(
-        "r.category", map="test", output_format="json", env=session.env
+    result = json.loads(
+        gs.read_command("r.category", map="test", output_format="json", env=session.env)
     )
-    result = json.loads(result)
 
     expected = [
         {"category": 1, "description": "trees, very green"},
@@ -291,14 +311,15 @@ def test_r_category_with_json_output_color(simple_dataset):
     ]
 
     for color, expected in zip(colors, expected_outputs):
-        result = gs.read_command(
-            "r.category",
-            map="test",
-            output_format="json",
-            color=color,
-            env=session.env,
+        result = json.loads(
+            gs.read_command(
+                "r.category",
+                map="test",
+                output_format="json",
+                color=color,
+                env=session.env,
+            )
         )
-        result = json.loads(result)
         assert result == expected, f"test failed: expected {expected} but got {result}"
 
 
@@ -331,5 +352,7 @@ def test_r_category_with_plain_output_color(simple_dataset):
             separator=" ",
             color=color,
             env=session.env,
-        )
+        ).replace(
+            "\r", ""
+        )  # remove the '\r' (carriage return) to standardize line endings.
         assert result == expected, f"test failed: expected {expected} but got {result}"
