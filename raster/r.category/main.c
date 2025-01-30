@@ -139,13 +139,13 @@ int main(int argc, char *argv[])
     }
 
     if (strcmp(parm.color->answer, "rgb") == 0) {
-        color_format = RGB;
+        color_format = RGB_OUTPUT;
     }
     else if (strcmp(parm.color->answer, "triplet") == 0) {
-        color_format = TRIPLET;
+        color_format = TRIPLET_OUTPUT;
     }
     else if (strcmp(parm.color->answer, "hex") == 0) {
-        color_format = HEX;
+        color_format = HEX_OUTPUT;
     }
     else {
         color_format = NONE;
@@ -493,15 +493,15 @@ void get_color(enum ColorOutput color_format, int red, int grn, int blu,
                char *color)
 {
     switch (color_format) {
-    case RGB:
+    case RGB_OUTPUT:
         snprintf(color, 30, "rgb(%d, %d, %d)", red, grn, blu);
         break;
 
-    case HEX:
+    case HEX_OUTPUT:
         snprintf(color, 30, "#%02X%02X%02X", red, grn, blu);
         break;
 
-    case TRIPLET:
+    case TRIPLET_OUTPUT:
         snprintf(color, 30, "%d:%d:%d", red, grn, blu);
         break;
     case NONE:
