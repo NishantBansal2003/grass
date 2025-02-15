@@ -151,8 +151,10 @@ jobs:
         id: cached-data
         uses: actions/cache@v4
         with:
-          path: $HOME/nc_spm_full_v2alpha2
+          path: ${{env.HOME}}/nc_spm_full_v2alpha2
           key: nc_spm_full_v2alpha2
+        env:
+          HOME: $HOME
 
       - name: Download GRASS Sample Dataset
         if: steps.cached-data.outputs.cache-hit != 'true'
