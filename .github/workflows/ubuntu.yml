@@ -158,12 +158,14 @@ jobs:
         if: steps.cached-data.outputs.cache-hit != 'true'
         run: |
           echo ${{ github.workspace }}
-          echo ${{env.HOME}}
+          echo $HOME
+          echo ${{env.HOME_DIR}}
           grass --tmp-project XY --exec \
                 g.download.project url=${{ env.SAMPLE_DATA }} path=$HOME
         env:
           SAMPLE_DATA: "https://grass.osgeo.org/sampledata/north_carolina/\
             nc_spm_full_v2alpha2.tar.gz"
+          HOME_DIR: $HOME
 
       - name: Run tests
         run: |
