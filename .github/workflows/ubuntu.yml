@@ -151,7 +151,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/nc_spm_full_v2alpha2
-          key: nc_spm_full_v2alpha2
+          key: ${{ runner.os }}-nc_spm_full_v2alpha2
 
       - name: Download GRASS Sample Dataset
         if: steps.cached-data.outputs.cache-hit != 'true'
