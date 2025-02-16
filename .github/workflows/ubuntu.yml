@@ -150,8 +150,8 @@ jobs:
         id: cached-data
         uses: actions/cache@v4
         with:
-          path: sample-data/nc_spm_full_v2alpha2.tar.gz
-          key: nc_spm_full_v2alpha2.tar.gz
+          path: sample-data/nc_spm_full_v2alpha2.tar
+          key: nc_spm_full_v2alpha2.tar
           enableCrossOsArchive: true
 
       - name: Download GRASS Sample Dataset
@@ -159,6 +159,7 @@ jobs:
         run: |
           mkdir -p sample-data
           curl -L "$SAMPLE_DATA" -o sample-data/nc_spm_full_v2alpha2.tar.gz
+          gunzip -c sample-data/nc_spm_full_v2alpha2.tar.gz > sample-data/nc_spm_full_v2alpha2.tar
         env:
           SAMPLE_DATA: "https://grass.osgeo.org/sampledata/north_carolina/\
             nc_spm_full_v2alpha2.tar.gz"
@@ -169,7 +170,7 @@ jobs:
                 g.download.project url=${{ env.SAMPLE_DATA }} path=$HOME
         env:
           SAMPLE_DATA: "file://${{ github.workspace }}/sample-data/\
-            nc_spm_full_v2alpha2.tar.gz"
+            nc_spm_full_v2alpha2.tar"
 
       # - name: Run tests
       #   run: |
