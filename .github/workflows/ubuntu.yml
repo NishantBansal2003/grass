@@ -163,20 +163,17 @@ jobs:
           SAMPLE_DATA: "https://grass.osgeo.org/sampledata/north_carolina/\
             nc_spm_full_v2alpha2.tar.gz"
 
-      - name: Extract GRASS Sample Dataset
+      - name: Run tests
         run: |
           grass --tmp-project XY --exec \
                 g.download.project url=${{ env.SAMPLE_DATA }} path=$HOME
+          grass --tmp-project XY --exec \
+              python3 -m grass.gunittest.main \
+              --grassdata $HOME --location nc_spm_full_v2alpha2 --location-type nc \
+              --min-success 100 --config .gunittest.extra.cfg
         env:
           SAMPLE_DATA: "file://${{ github.workspace }}/sample-data/\
             nc_spm_full_v2alpha2.tar.gz"
-
-      # - name: Run tests
-      #   run: |
-      #     grass --tmp-project XY --exec \
-      #         python3 -m grass.gunittest.main \
-      #         --grassdata $HOME --location nc_spm_full_v2alpha2 --location-type nc \
-      #         --min-success 100 --config .gunittest.extra.cfg
 
       - name: Make HTML test report available
         if: ${{ always() }}
