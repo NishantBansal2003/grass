@@ -150,15 +150,15 @@ jobs:
         id: cached-data
         uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4.2.1
         with:
-          path: sample-data/
+          path: ~/sample-data
           key: nc_spm_full_v2alpha2.tar.gz
           enableCrossOsArchive: true
 
       - name: Download GRASS Sample Dataset
         if: steps.cached-data.outputs.cache-hit != 'true'
         run: |
-          mkdir -p sample-data
-          curl -L "$SAMPLE_DATA" -o sample-data/nc_spm_full_v2alpha2.tar.gz
+          mkdir -p ~/sample-data
+          curl -L "$SAMPLE_DATA" -o ~/sample-data/nc_spm_full_v2alpha2.tar.gz
         env:
           SAMPLE_DATA: "https://grass.osgeo.org/sampledata/north_carolina/\
             nc_spm_full_v2alpha2.tar.gz"
