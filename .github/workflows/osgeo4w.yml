@@ -15,7 +15,8 @@ jobs:
     name: ${{ matrix.os }} build and tests
 
     concurrency:
-      group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}-${{
+      group:
+        ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}-${{
         matrix.os }}
       cancel-in-progress: true
 
@@ -65,6 +66,13 @@ jobs:
             pkgconf
             toolchain
             zlib
+
+      - name: Cache OSGeo4W proj-data
+        id: cached-proj-data
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4.2.1
+        with:
+          path: D:/OSGeo4W_pkg/https%3a%2f%2fdownload.osgeo.org%2fosgeo4w%2fv2%2f/x86_64/release/proj/proj-data/proj-data-1.20-1.tar.bz2
+          key: proj-data-1.20-1.tar.bz2
 
       - name: Setup OSGeo4W environment
         uses: echoix/setup-OSGeo4W@f4311523e39f2c8b10e34ebbc3f2ff437ecfb9ed # v0.2.0
