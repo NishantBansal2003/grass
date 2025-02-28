@@ -102,10 +102,10 @@ jobs:
             python3-wxpython
             sqlite3-devel
             zstd-devel
-      
+
       - name: Save OSGeo4W PROJ Data Files
-        # Skip saving for PRs
-        # if: ${{ github.event_name != 'pull_request' }}
+        # Skip saving for PRs github.event_name != 'pull_request' &&
+        if: steps.cached-proj-data.outputs.cache-hit != 'true'
         uses: actions/cache/save@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4.2.1
         with:
           path: D:/OSGeo4W_pkg/**/proj-data-*.tar.bz2
