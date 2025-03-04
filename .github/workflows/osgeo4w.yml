@@ -66,6 +66,13 @@ jobs:
             toolchain
             zlib
 
+      - name: Restore OSGeo4W PROJ Data Files
+        id: cached-proj-data
+        uses: actions/cache/restore@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4.2.1
+        with:
+          path: D:/OSGeo4W_pkg/**/proj-data-*.tar.bz2
+          key: proj-data
+
       - name: Setup OSGeo4W environment
         uses: echoix/setup-OSGeo4W@f4311523e39f2c8b10e34ebbc3f2ff437ecfb9ed # v0.2.0
         id: osgeo4w
@@ -95,6 +102,14 @@ jobs:
             python3-wxpython
             sqlite3-devel
             zstd-devel
+
+      - name: Save OSGeo4W PROJ Data Files
+        # Skip saving for PRs
+        if: github.event_name != 'pull_request' && steps.cached-proj-data.outputs.cache-hit != 'true'
+        uses: actions/cache/save@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4.2.1
+        with:
+          path: D:/OSGeo4W_pkg/**/proj-data-*.tar.bz2
+          key: ${{ steps.cached-proj-data.outputs.cache-primary-key }}
 
       - name: Set number of cores for compilation
         run: |
