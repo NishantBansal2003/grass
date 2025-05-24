@@ -44,8 +44,8 @@ static void close_file(FILE *fp)
    \param clr_frmt color format to be used (RGB, HEX, HSV, TRIPLET).
    \param color_object pointer to the JSON object
  */
-static void set_color(int r, int g, int b, ColorFormat clr_frmt,
-                      JSON_Object *color_object)
+void Rast_set_color(int r, int g, int b, ColorFormat clr_frmt,
+                    JSON_Object *color_object)
 {
     char color_string[COLOR_STRING_LENGTH];
     float h, s, v;
@@ -54,26 +54,24 @@ static void set_color(int r, int g, int b, ColorFormat clr_frmt,
     case RGB:
         snprintf(color_string, sizeof(color_string), "rgb(%d, %d, %d)", r, g,
                  b);
-        G_json_object_set_string(color_object, "color", color_string);
         break;
 
     case HEX:
         snprintf(color_string, sizeof(color_string), "#%02X%02X%02X", r, g, b);
-        G_json_object_set_string(color_object, "color", color_string);
         break;
 
     case HSV:
         G_rgb_to_hsv(r, g, b, &h, &s, &v);
         snprintf(color_string, sizeof(color_string), "hsv(%d, %d, %d)", (int)h,
                  (int)s, (int)v);
-        G_json_object_set_string(color_object, "color", color_string);
         break;
 
     case TRIPLET:
         snprintf(color_string, sizeof(color_string), "%d:%d:%d", r, g, b);
-        G_json_object_set_string(color_object, "color", color_string);
         break;
     }
+
+    G_json_object_set_string(color_object, "color", color_string);
 }
 
 /*!
@@ -120,7 +118,7 @@ static void write_json_rule(DCELL *val, DCELL *min, DCELL *max, int r, int g,
     else
         G_json_object_set_number(color_object, "value", *val);
 
-    set_color(r, g, b, clr_frmt, color_object);
+    Rast_set_color(r, g, b, clr_frmt, color_object);
 
     G_json_array_append_value(root_array, color_value);
 }
@@ -197,7 +195,7 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
         }
         JSON_Object *nv_object = G_json_object(nv_value);
         G_json_object_set_string(nv_object, "value", "nv");
-        set_color(r, g, b, clr_frmt, nv_object);
+        Rast_set_color(r, g, b, clr_frmt, nv_object);
         G_json_array_append_value(root_array, nv_value);
 
         // Get RGB color for default values and create JSON entry
@@ -211,7 +209,7 @@ void Rast_print_json_colors(struct Colors *colors, DCELL min, DCELL max,
         }
         JSON_Object *default_object = G_json_object(default_value);
         G_json_object_set_string(default_object, "value", "default");
-        set_color(r, g, b, clr_frmt, default_object);
+        Rast_set_color(r, g, b, clr_frmt, default_object);
         G_json_array_append_value(root_array, default_value);
     }
 
