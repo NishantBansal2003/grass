@@ -13,7 +13,7 @@ def test_plain_list_output(simple_dataset):
 
 
 def test_plain_print_output(simple_dataset):
-    """Test f.mapset with print flag and plain format"""
+    """Test g.mapset with print flag and plain format"""
     text = gs.read_command("g.mapset", format="plain", flags="p")
     assert text.strip() == simple_dataset.current_mapset
 
