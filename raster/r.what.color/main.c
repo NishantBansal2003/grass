@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <grass/colors.h>
 #include <grass/gis.h>
 #include <grass/parson.h>
 #include <grass/raster.h>
@@ -38,6 +39,7 @@ static int do_value(const char *buf, RASTER_MAP_TYPE type,
     CELL ival;
     DCELL fval;
     int red, grn, blu;
+    char color_str[COLOR_STRING_LENGTH];
 
     JSON_Object *color_object = NULL;
     JSON_Value *color_value = NULL;
@@ -45,6 +47,7 @@ static int do_value(const char *buf, RASTER_MAP_TYPE type,
     if (outputFormat == JSON) {
         color_value = json_value_init_object();
         if (color_value == NULL) {
+            json_value_free(root_value);
             G_fatal_error(
                 _("Failed to initialize JSON object. Out of memory?"));
         }
@@ -90,7 +93,8 @@ static int do_value(const char *buf, RASTER_MAP_TYPE type,
 
         case JSON:
             json_object_set_number(color_object, "value", ival);
-            Rast_set_color(red, grn, blu, colorFormat, color_object);
+            G_color_to_str(red, grn, blu, colorFormat, color_str);
+            json_object_set_string(color_object, "color", color_str);
             json_array_append_value(root_array, color_value);
             break;
         }
@@ -135,7 +139,8 @@ static int do_value(const char *buf, RASTER_MAP_TYPE type,
 
         case JSON:
             json_object_set_number(color_object, "value", fval);
-            Rast_set_color(red, grn, blu, colorFormat, color_object);
+            G_color_to_str(red, grn, blu, colorFormat, color_str);
+            json_object_set_string(color_object, "color", color_str);
             json_array_append_value(root_array, color_value);
             break;
         }
@@ -269,6 +274,7 @@ int main(int argc, char **argv)
         char *serialized_string = NULL;
         serialized_string = json_serialize_to_string_pretty(root_value);
         if (serialized_string == NULL) {
+            json_value_free(root_value);
             G_fatal_error(_("Failed to initialize pretty JSON string."));
         }
         puts(serialized_string);

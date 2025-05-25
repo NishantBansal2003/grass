@@ -22,7 +22,7 @@ class TestRWhatColor(TestCase):
         module = SimpleModule(
             "r.what.color", input=self.input, flags="i", stdin=self.value
         )
-        self.runModule(module)
+        self.assertModule(module)
         result = module.outputs.stdout
         expected = [
             "50: *",
@@ -52,7 +52,7 @@ class TestRWhatColor(TestCase):
             format="#%02X%02X%02X",
             output_format="plain",
         )
-        self.runModule(module)
+        self.assertModule(module)
         result = module.outputs.stdout
         expected = [
             "50: *",
@@ -84,7 +84,7 @@ class TestRWhatColor(TestCase):
             output_format="json",
             color_format="triplet",
         )
-        self.runModule(module)
+        self.assertModule(module)
         result = json.loads(module.outputs.stdout)
         expected = [
             {"color": "*", "value": 50},
@@ -111,7 +111,7 @@ class TestRWhatColor(TestCase):
             output_format="json",
             color_format="rgb",
         )
-        self.runModule(module)
+        self.assertModule(module)
         result = json.loads(module.outputs.stdout)
         expected = [
             {"color": "*", "value": 50},
@@ -138,7 +138,7 @@ class TestRWhatColor(TestCase):
             output_format="json",
             color_format="hex",
         )
-        self.runModule(module)
+        self.assertModule(module)
         result = json.loads(module.outputs.stdout)
         expected = [
             {"color": "*", "value": 50},
@@ -162,7 +162,7 @@ class TestRWhatColor(TestCase):
             stdin=self.value,
             output_format="json",
         )
-        self.runModule(module)
+        self.assertModule(module)
         result = json.loads(module.outputs.stdout)
         self.assertListEqual(
             result,
@@ -180,7 +180,7 @@ class TestRWhatColor(TestCase):
             output_format="json",
             color_format="hsv",
         )
-        self.runModule(module)
+        self.assertModule(module)
         result = json.loads(module.outputs.stdout)
         expected = [
             {"color": "*", "value": 50},

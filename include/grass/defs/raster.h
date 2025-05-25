@@ -4,7 +4,6 @@
 #include <stdbool.h>
 
 #include <grass/gis.h>
-#include <grass/gjson.h>
 
 /* --- ANSI prototypes for the lib/raster functions --- */
 
@@ -182,7 +181,6 @@ void Rast__organize_colors(struct Colors *);
 void Rast_print_colors(struct Colors *, DCELL, DCELL, FILE *, int);
 
 /* json_color_out.c */
-void Rast_set_color(int, int, int, ColorFormat, JSON_Object *);
 void Rast_print_json_colors(struct Colors *, DCELL, DCELL, FILE *, int,
                             ColorFormat);
 

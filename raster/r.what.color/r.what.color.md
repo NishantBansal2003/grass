@@ -92,6 +92,35 @@ Common formats:
 - Tcl/Tk: `format="#%02x%02x%02x"`
 - WxPython: `format='"#%02x%02x%02x"'` or `format='"(%d,%d,%d)"'`
 
+## Using r.what.color JSON output with python
+
+Print color associated with user-specified category value in JSON format using
+Python:
+
+```python
+import grass.script as gs
+import json
+
+# Run the r.what.color command with rgb option for JSON output format
+items = gs.read_command(
+    "r.what.color",
+    input="elevation",
+    value=[100, 135, 156],
+    output_format="json",
+    color_format="rgb",
+)
+
+items = json.loads(items)
+for item in items:
+    print(f"{item['value']}: {item['color']}")
+```
+
+```sh
+100: rgb(255, 229, 0)
+135: rgb(195, 127, 59)
+156: rgb(23, 22, 21)
+```
+
 ## SEE ALSO
 
 *[r.what](r.what.md)*
