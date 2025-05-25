@@ -6,7 +6,7 @@ import json
 
 class TestRWhatColor(TestCase):
     input = "elevation"
-    value = "50\n100\n135\n156\nbogus"
+    value = "50\n100\n116.029\n135\n156\nbogus"
 
     @classmethod
     def setUpClass(cls):
@@ -27,6 +27,7 @@ class TestRWhatColor(TestCase):
         expected = [
             "50: *",
             "100: 255:229:0",
+            "116.029: 255:128:0",
             "135: 195:127:59",
             "156: 23:22:21",
             "*: *",
@@ -37,10 +38,12 @@ class TestRWhatColor(TestCase):
         result = result.replace("\r", "")
         result_lines = [line for line in result.split("\n") if line.strip() != ""]
 
-        self.assertListEqual(result_lines, expected, "Mismatch in print output (plain)")
+        self.assertListEqual(
+            result_lines, expected, "Mismatch in printed output (plain)"
+        )
 
     def test_r_what_color_plain_with_format_option(self):
-        """Test r.what.color command with format option for plain text output format."""
+        """Test the r.what.color command with the format option for plain text output."""
         module = SimpleModule(
             "r.what.color",
             input=self.input,
@@ -51,14 +54,25 @@ class TestRWhatColor(TestCase):
         )
         self.runModule(module)
         result = module.outputs.stdout
-        expected = ["50: *", "100: #FFE500", "135: #C37F3B", "156: #171615", "*: *"]
+        expected = [
+            "50: *",
+            "100: #FFE500",
+            "116.029: #FF8000",
+            "135: #C37F3B",
+            "156: #171615",
+            "*: *",
+        ]
 
         # Replacing '\r' because Windows uses '\r\n' for line endings, but we
         # want to remove the '\r' (carriage return) to standardize line endings
         result = result.replace("\r", "")
         result_lines = [line for line in result.split("\n") if line.strip() != ""]
 
-        self.assertListEqual(result_lines, expected, "Mismatch in print output (plain)")
+        self.assertListEqual(
+            result_lines,
+            expected,
+            "Mismatch in printed output (plain) with the format option",
+        )
 
     def test_r_what_color_json_with_triplet_option(self):
         """Test r.what.color command with triplet option for json output format."""
@@ -75,12 +89,17 @@ class TestRWhatColor(TestCase):
         expected = [
             {"color": "*", "value": 50},
             {"color": "255:229:0", "value": 100},
+            {"color": "255:128:0", "value": 116.029},
             {"color": "195:127:59", "value": 135},
             {"color": "23:22:21", "value": 156},
             {"color": "*", "value": "*"},
         ]
 
-        self.assertListEqual(result, expected, "Mismatch in print output (JSON)")
+        self.assertListEqual(
+            result,
+            expected,
+            "Mismatch in printed output (JSON) with the triplet option",
+        )
 
     def test_r_what_color_json_with_rgb_option(self):
         """Test r.what.color command with rgb option for json output format."""
@@ -97,12 +116,17 @@ class TestRWhatColor(TestCase):
         expected = [
             {"color": "*", "value": 50},
             {"color": "rgb(255, 229, 0)", "value": 100},
+            {"color": "rgb(255, 128, 0)", "value": 116.029},
             {"color": "rgb(195, 127, 59)", "value": 135},
             {"color": "rgb(23, 22, 21)", "value": 156},
             {"color": "*", "value": "*"},
         ]
 
-        self.assertListEqual(result, expected, "Mismatch in print output (JSON)")
+        self.assertListEqual(
+            result,
+            expected,
+            "Mismatch in printed output (JSON) with the rgb option",
+        )
 
     def test_r_what_color_json_with_hex_option(self):
         """Test r.what.color command with hex option for json output format."""
@@ -119,12 +143,32 @@ class TestRWhatColor(TestCase):
         expected = [
             {"color": "*", "value": 50},
             {"color": "#FFE500", "value": 100},
+            {"color": "#FF8000", "value": 116.029},
             {"color": "#C37F3B", "value": 135},
             {"color": "#171615", "value": 156},
             {"color": "*", "value": "*"},
         ]
+        self.assertListEqual(
+            result,
+            expected,
+            "Mismatch in printed output (JSON) with the hex option",
+        )
 
-        self.assertListEqual(result, expected, "Mismatch in print output (JSON)")
+        # Test r.what.color command with default option for json output format
+        module = SimpleModule(
+            "r.what.color",
+            input=self.input,
+            flags="i",
+            stdin=self.value,
+            output_format="json",
+        )
+        self.runModule(module)
+        result = json.loads(module.outputs.stdout)
+        self.assertListEqual(
+            result,
+            expected,
+            "Mismatch in printed output (JSON) with the defualt option",
+        )
 
     def test_r_what_color_json_with_hsv_option(self):
         """Test r.what.color command with hsv option for json output format."""
@@ -141,12 +185,17 @@ class TestRWhatColor(TestCase):
         expected = [
             {"color": "*", "value": 50},
             {"color": "hsv(53, 100, 100)", "value": 100},
+            {"color": "hsv(30, 100, 100)", "value": 116.029},
             {"color": "hsv(30, 69, 76)", "value": 135},
             {"color": "hsv(30, 8, 9)", "value": 156},
             {"color": "*", "value": "*"},
         ]
 
-        self.assertListEqual(result, expected, "Mismatch in print output (JSON)")
+        self.assertListEqual(
+            result,
+            expected,
+            "Mismatch in printed output (JSON) with the hsv option",
+        )
 
 
 if __name__ == "__main__":
