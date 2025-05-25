@@ -28,7 +28,7 @@
 
 enum OutputFormat { PLAIN, JSON };
 
-// Function to serialize and print JSON object
+// Function to serialize and print JSON value
 static void serialize_and_print_json_object(JSON_Value *root_value)
 {
     char *serialized_string = json_serialize_to_string_pretty(root_value);

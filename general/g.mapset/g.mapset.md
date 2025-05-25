@@ -39,7 +39,8 @@ To print the name of the current mapset in JSON format using python:
 ```python
 import grass.script as gs
 
-# Run the g.mapset command with -p flag to print the current mapset using JSON # output format
+# Run the g.mapset command with -p flag to print the current mapset using JSON
+# output format
 data = gs.parse_command(
     "g.mapset",
     flags="p",
