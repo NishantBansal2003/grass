@@ -27,7 +27,7 @@ class TestReport(TestCase):
         cls.del_temp_region()
 
     def test_flag_g(self):
-        """Testing flag g with map geology_30m using simple module"""
+        """Testing flag g with map lakes using simple module"""
         output_str = """north=228500
         south=215000
         east=645000
@@ -48,7 +48,7 @@ class TestReport(TestCase):
             sep="=",
         )
 
-        # Testing flag g and shell format with map geology_30m using simple module
+        # Testing flag g and shell format with map lakes using simple module
         self.assertModuleKeyValue(
             module="r.info",
             map="lakes",
@@ -60,7 +60,7 @@ class TestReport(TestCase):
         )
 
     def test_flag_r(self):
-        """Testing flag r with map landcover_1m using simple module"""
+        """Testing flag r with map lakes using simple module"""
         output_str = """min=34300
         max=43600"""
         self.assertModuleKeyValue(
@@ -72,7 +72,7 @@ class TestReport(TestCase):
             sep="=",
         )
 
-        # Testing flag r and shell format with map geology_30m using simple module
+        # Testing flag r and shell format with map lakes using simple module
         self.assertModuleKeyValue(
             module="r.info",
             map="lakes",
@@ -84,7 +84,7 @@ class TestReport(TestCase):
         )
 
     def test_flag_s(self):
-        """Testing flag s with map landcover_1m using simple module"""
+        """Testing flag s with map lakes using simple module"""
         output_str = """min=34300
         max=43600
         cells=2025000
@@ -101,7 +101,7 @@ class TestReport(TestCase):
             sep="=",
         )
 
-        # Testing flag s and shell format with map geology_30m using simple module
+        # Testing flag s and shell format with map lakes using simple module
         self.assertModuleKeyValue(
             module="r.info",
             map="lakes",
@@ -113,7 +113,7 @@ class TestReport(TestCase):
         )
 
     def test_flag_e(self):
-        """Testing flag e with map lsat7_2002_50"""
+        """Testing flag e with map lakes"""
         module = SimpleModule(
             "r.info",
             map="lakes",
@@ -149,14 +149,14 @@ class TestReport(TestCase):
                 continue
             self.assertEqual(component, expected[i], f"Mismatch at line {i + 1}")
 
-        # Testing flag e and shell format with map geology_30m using simple module
+        # Testing flag e and shell format with map lakes using simple module
         shell_module = SimpleModule("r.info", map="lakes", flags="e", format="shell")
         self.assertModule(shell_module)
         shell_result = shell_module.outputs.stdout.splitlines()
         self.assertEqual(shell_result, result, "Mismatch in shell output (-e flag)")
 
     def test_flag_h(self):
-        """Testing flag h with map zipcodes"""
+        """Testing flag h with map lakes"""
         module = SimpleModule("r.info", map="lakes", flags="h")
         self.assertModule(module)
         result = module.outputs.stdout.splitlines()
@@ -172,14 +172,14 @@ class TestReport(TestCase):
 
         self.assertListEqual(result, expected, "Mismatch in printed output (-h flag)")
 
-        # Testing flag h and plain format with map geology_30m using simple module
+        # Testing flag h and plain format with map lakes using simple module
         plain_module = SimpleModule("r.info", map="lakes", flags="h", format="plain")
         self.assertModule(plain_module)
         plain_result = plain_module.outputs.stdout.splitlines()
         self.assertEqual(plain_result, result, "Mismatch in plain output (-h flag)")
 
     def test_no_flag(self):
-        """Testing without any flags and with map zipcodes"""
+        """Testing without any flags and with map lakes"""
         module = SimpleModule("r.info", map="lakes")
         self.assertModule(module)
         result = module.outputs.stdout.splitlines()
@@ -219,14 +219,14 @@ class TestReport(TestCase):
                 continue
             self.assertEqual(component, expected[i], f"Mismatch at line {i + 1}")
 
-        # Testing without any flags and plain format with map geology_30m using simple module
+        # Testing without any flags and plain format with map lakes using simple module
         plain_module = SimpleModule("r.info", map="lakes", format="plain")
         self.assertModule(plain_module)
         plain_result = plain_module.outputs.stdout.splitlines()
         self.assertEqual(plain_result, result, "Mismatch in plain output (no flags)")
 
     def test_flags_grse(self):
-        """Testing flags grse with map lsat7_2002_50"""
+        """Testing flags grse with map lakes"""
         module = SimpleModule(
             "r.info",
             map="lakes",
@@ -279,15 +279,15 @@ class TestReport(TestCase):
                 continue
             self.assertEqual(component, expected[i], f"Mismatch at line {i + 1}")
 
-        # Testing flag grse and shell format with map geology_30m using simple module
+        # Testing flag grse and shell format with map lakes using simple module
         shell_module = SimpleModule("r.info", map="lakes", flags="grse", format="shell")
         self.assertModule(shell_module)
         shell_result = shell_module.outputs.stdout.splitlines()
         self.assertEqual(shell_result, result, "Mismatch in shell output (-grse flags)")
 
     def test_no_flags_shell(self):
-        """Testing without any flags with shell format with map lsat7_2002_50"""
-        module = SimpleModule("r.info", map="lakes", format="shell")
+        """Testing without any flags with shell format with map geology_30m"""
+        module = SimpleModule("r.info", map="geology_30m", format="shell")
         self.assertModule(module)
         result = module.outputs.stdout.splitlines()
         expected = [
@@ -295,36 +295,36 @@ class TestReport(TestCase):
             "south=215000",
             "east=645000",
             "west=630000",
-            "nsres=10",
-            "ewres=10",
-            "rows=1350",
-            "cols=1500",
-            "cells=2025000",
+            "nsres=30",
+            "ewres=30",
+            "rows=450",
+            "cols=500",
+            "cells=225000",
             "datatype=CELL",
-            "ncats=43600",
-            "min=34300",
-            "max=43600",
-            "n=36011",
-            "mean=39002.3492821638",
-            "stddev=739.796536643115",
-            "sum=1404513600",
-            "map=lakes",
+            "ncats=1832",
+            "min=217",
+            "max=948",
+            "n=225000",
+            "mean=311.219635555556",
+            "stddev=165.83590845639",
+            "sum=70024418",
+            "map=geology_30m",
             "maptype=raster",
             "mapset=PERMANENT",
             "location=",
             "project=",
             "database=",
-            'date="Fri Jan 19 23:49:34 2007"',
-            'creator="helena"',
-            'title="South-West Wake county: Wake county lakes"',
+            'date="Fri Mar 16 15:49:04 2007"',
+            'creator="hmitaso"',
+            'title="South-West Wake county: geology derived from vector map"',
             'timestamp="none"',
             'units="none"',
             'vdatum="none"',
             'semantic_label="none"',
-            'source1=""',
-            'source2=""',
-            'description="generated by r.mapcalc"',
-            'comments="1 * lakes_large"',
+            'source1="Vector Map: geology in mapset PERMANENT"',
+            'source2="Original Scale from Vector Map: 1:1"',
+            'description="generated by v.to.rast"',
+            'comments="v.to.rast input="geology" output="geology_30m" use="attr" type="poin\\t,line,area" layer=1 column="GEOL250_ID" value=1 rows=4096 labelcolu\\mn="GEO_NAME""',
         ]
 
         # Skip exact match for lines containing "location", "project", "database" because their values vary
@@ -336,7 +336,7 @@ class TestReport(TestCase):
             self.assertEqual(component, expected[i], f"Mismatch at line {i + 1}")
 
     def test_flag_h_shell(self):
-        """Testing flag h and shell format with map zipcodes"""
+        """Testing flag h and shell format with map lakes"""
         output_str = """source1=""
         source2=""
         description="generated by r.mapcalc"
@@ -353,56 +353,53 @@ class TestReport(TestCase):
 
     def test_flag_g_plain(self):
         """Testing flag g and plain format with map lsat7_2002_50"""
-        module = SimpleModule("r.info", map="lakes", flags="g", format="plain")
+        module = SimpleModule("r.info", map="lsat7_2002_50", flags="g", format="plain")
         self.assertModule(module)
         result = module.outputs.stdout.splitlines()
         expected = [
-            "North: 228500",
-            "South: 215000",
-            "East: 645000",
-            "West: 630000",
-            "North-south resolution: 10",
-            "East-west resolution: 10",
-            "Rows: 1350",
-            "Columns: 1500",
-            "Total Cells: 2025000",
+            "North: 228513",
+            "South: 214975.5",
+            "East: 645012",
+            "West: 629992.5",
+            "North-south resolution: 28.5",
+            "East-west resolution: 28.5",
+            "Rows: 475",
+            "Columns: 527",
+            "Total Cells: 250325",
             "Datatype: CELL",
-            "Number of Categories: 43600",
+            "Number of Categories: 255",
         ]
 
         self.assertEqual(result, expected, "Mismatch in plain output (-g flag)")
 
     def test_flag_r_plain(self):
         """Testing flag r and plain format with map lsat7_2002_50"""
-        module = SimpleModule("r.info", map="lakes", flags="r", format="plain")
+        module = SimpleModule("r.info", map="lsat7_2002_50", flags="r", format="plain")
         self.assertModule(module)
         result = module.outputs.stdout.splitlines()
-        expected = [
-            "Minimum: 34300",
-            "Maximum: 43600",
-        ]
+        expected = ["Minimum: 1", "Maximum: 255"]
 
         self.assertEqual(result, expected, "Mismatch in plain output (-r flag)")
 
     def test_flag_s_plain(self):
         """Testing flag s and plain format with map lsat7_2002_50"""
-        module = SimpleModule("r.info", map="lakes", flags="s", format="plain")
+        module = SimpleModule("r.info", map="lsat7_2002_50", flags="s", format="plain")
         self.assertModule(module)
         result = module.outputs.stdout.splitlines()
         expected = [
-            "Minimum: 34300",
-            "Maximum: 43600",
-            "Total Cells: 2025000",
-            "N: 36011",
-            "Mean: 39002.3492821638",
-            "Standard Deviation: 739.796536643115",
-            "Sum: 1404513600",
+            "Minimum: 1",
+            "Maximum: 255",
+            "Total Cells: 250325",
+            "N: 250325",
+            "Mean: 97.5980225706581",
+            "Standard Deviation: 37.4386469322189",
+            "Sum: 24431225",
         ]
 
         self.assertEqual(result, expected, "Mismatch in plain output (-s flag)")
 
     def test_flag_e_plain(self):
-        """Testing flag e and plain format with map lsat7_2002_50"""
+        """Testing flag e and plain format with map lakes"""
         module = SimpleModule("r.info", map="lakes", flags="e", format="plain")
         self.assertModule(module)
         result = module.outputs.stdout.splitlines()
@@ -439,7 +436,7 @@ class TestReport(TestCase):
             self.assertEqual(component, expected[i], f"Mismatch at line {i + 1}")
 
     def test_flags_grse_plain(self):
-        """Testing flags grse and plain format with map lsat7_2002_50"""
+        """Testing flags grse and plain format with map lakes"""
         module = SimpleModule("r.info", map="lakes", flags="grse", format="plain")
         self.assertModule(module)
         result = module.outputs.stdout.splitlines()
@@ -513,8 +510,8 @@ class TestReport(TestCase):
                 self.assertEqual(value, result[key])
 
     def test_flag_g_json(self):
-        """Testing flag g and JSON format with map geology_30m using simple module"""
-        module = SimpleModule("r.info", map="lakes", flags="g", format="json")
+        """Testing flag g and JSON format with map zipcodes using simple module"""
+        module = SimpleModule("r.info", map="zipcodes", flags="g", format="json")
         expected = {
             "north": 228500,
             "south": 215000,
@@ -526,18 +523,18 @@ class TestReport(TestCase):
             "cols": 1500,
             "cells": 2025000,
             "datatype": "CELL",
-            "ncats": 43600,
+            "ncats": 27610,
         }
         self._test_format_json_helper(module, expected, False)
 
     def test_flag_r_json(self):
         """Testing flag r and JSON format with map landcover_1m using simple module"""
-        module = SimpleModule("r.info", map="lakes", flags="r", format="json")
-        expected = {"min": 34300, "max": 43600}
+        module = SimpleModule("r.info", map="landcover_1m", flags="r", format="json")
+        expected = {"min": 1, "max": 11}
         self._test_format_json_helper(module, expected, False)
 
     def test_flag_s_json(self):
-        """Testing flag s and JSON format with map landcover_1m using simple module"""
+        """Testing flag s and JSON format with map lakes using simple module"""
         module = SimpleModule("r.info", map="lakes", flags="s", format="json")
         expected = {
             "min": 34300,
@@ -551,15 +548,15 @@ class TestReport(TestCase):
         self._test_format_json_helper(module, expected, False)
 
     def test_flag_e_json(self):
-        """Testing flag e and JSON format with map lsat7_2002_50"""
-        module = SimpleModule("r.info", map="lakes", flags="e", format="json")
+        """Testing flag e and JSON format with map landcover_1m"""
+        module = SimpleModule("r.info", map="landcover_1m", flags="e", format="json")
         expected = {
-            "map": "lakes",
+            "map": "landcover_1m",
             "maptype": "raster",
             "mapset": "PERMANENT",
-            "date": "Fri Jan 19 23:49:34 2007",
+            "date": "Fri Mar  9 20:01:46 2007",
             "creator": "helena",
-            "title": "South-West Wake county: Wake county lakes",
+            "title": "Rural area: Landcover",
             "timestamp": None,
             "units": None,
             "vdatum": None,
@@ -567,23 +564,23 @@ class TestReport(TestCase):
             "source1": "",
             "source2": "",
             "description": "generated by r.mapcalc",
-            "comments": "1 * lakes_large",
+            "comments": "if(isnull(landcover_1m) || landcover_1m == 0, 11, landcover_1m)",
         }
         self._test_format_json_helper(module, expected)
 
     def test_flag_h_json(self):
         """Testing flag h and JSON format with map zipcodes"""
-        module = SimpleModule("r.info", map="lakes", flags="h", format="json")
+        module = SimpleModule("r.info", map="zipcodes", flags="h", format="json")
         expected = {
             "source1": "",
             "source2": "",
             "description": "generated by r.mapcalc",
-            "comments": "1 * lakes_large",
+            "comments": "int(zipcodes)",
         }
         self._test_format_json_helper(module, expected, False)
 
     def test_no_flag_json(self):
-        """Testing without any flags with JSON format and with map zipcodes"""
+        """Testing without any flags with JSON format and with map lakes"""
         module = SimpleModule("r.info", map="lakes", format="json")
         expected = {
             "north": 228500,
@@ -621,7 +618,7 @@ class TestReport(TestCase):
         self._test_format_json_helper(module, expected)
 
     def test_flags_grse_json(self):
-        """Testing flags grse and JSON format with map lsat7_2002_50"""
+        """Testing flags grse and JSON format with map lakes"""
         module = SimpleModule("r.info", map="lakes", flags="grse", format="json")
         expected = {
             "north": 228500,
