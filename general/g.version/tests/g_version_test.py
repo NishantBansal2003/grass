@@ -117,9 +117,9 @@ def test_e_flag_shell(session):
         "sqlite",
     ]
     output = gs.parse_command("g.version", flags="e", format="shell", env=session.env)
-    for key in output:
-        assert key in expected_keys, (
-            f"Unexpected key '{key}' in g.version -e shell output"
+    for key in expected_keys:
+        assert key in output, (
+            f"Expected key '{key}' in g.version -e shell output, but it was not found."
         )
 
 
@@ -136,9 +136,9 @@ def test_r_flag_shell(session):
     """Test that g.version -r with shell format contains the expected keys."""
     expected_keys = [*DEFAULT_KEYS, "libgis_revision", "libgis_date"]
     output = gs.parse_command("g.version", flags="r", format="shell", env=session.env)
-    for key in output:
-        assert key in expected_keys, (
-            f"Unexpected key '{key}' in g.version -r shell output"
+    for key in expected_keys:
+        assert key in output, (
+            f"Expected key '{key}' in g.version -r shell output, but it was not found."
         )
 
 
@@ -146,8 +146,10 @@ def test_g_version_no_flag_json(session):
     """Test that g.version with json format contains the expected keys."""
     output = gs.parse_command("g.version", format="json", env=session.env)
     expected_keys = DEFAULT_KEYS
-    for key in output.keys():
-        assert key in expected_keys, f"Unexpected key '{key}' in g.version json output"
+    for key in expected_keys:
+        assert key in output.keys(), (
+            f"Expected key '{key}' in g.version json output, but it was not found."
+        )
 
 
 def test_g_version_c_flag_json(session):
@@ -157,9 +159,9 @@ def test_g_version_c_flag_json(session):
         *DEFAULT_KEYS,
         "copyright",
     ]
-    for key in output.keys():
-        assert key in expected_keys, (
-            f"Unexpected key '{key}' in g.version -c json output"
+    for key in expected_keys:
+        assert key in output.keys(), (
+            f"Expected key '{key}' in g.version -c json output, but it was not found."
         )
 
     expected_copyright_text = "Copyright and License Statement"
@@ -175,9 +177,9 @@ def test_g_version_x_flag_json(session):
         *DEFAULT_KEYS,
         "citation",
     ]
-    for key in output.keys():
-        assert key in expected_keys, (
-            f"Unexpected key '{key}' in g.version -x json output"
+    for key in expected_keys:
+        assert key in output.keys(), (
+            f"Expected key '{key}' in g.version -x json output, but it was not found."
         )
 
     assert curly_brackets_paired(output["citation"]), (
@@ -192,9 +194,9 @@ def test_g_version_b_flag_json(session):
         *DEFAULT_KEYS,
         "build_info",
     ]
-    for key in output.keys():
-        assert key in expected_keys, (
-            f"Unexpected key '{key}' in g.version -b json output"
+    for key in expected_keys:
+        assert key in output.keys(), (
+            f"Expected key '{key}' in g.version -b json output, but it was not found."
         )
 
     # Ensure we got some output.
@@ -211,9 +213,9 @@ def test_g_version_r_flag_json(session):
         "libgis_revision",
         "libgis_date",
     ]
-    for key in output.keys():
-        assert key in expected_keys, (
-            f"Unexpected key '{key}' in g.version -r json output"
+    for key in expected_keys:
+        assert key in output.keys(), (
+            f"Expected key '{key}' in g.version -r json output, but it was not found."
         )
 
 
@@ -227,7 +229,7 @@ def test_g_version_e_flag_json(session):
         "geos",
         "sqlite",
     ]
-    for key in output.keys():
-        assert key in expected_keys, (
-            f"Unexpected key '{key}' in g.version -e json output"
+    for key in expected_keys:
+        assert key in output.keys(), (
+            f"Expected key '{key}' in g.version -e json output, but it was not found."
         )
