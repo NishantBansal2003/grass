@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
         if (format == JSON) {
             json_value_free(root_value);
             G_fatal_error(_("Cannot use the -g flag with format=json; "
-                            "please select only one option"));
+                            "please select only one option."));
         }
         format = SHELL;
     }
