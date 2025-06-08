@@ -20,7 +20,7 @@
 
 #include <grass/gis.h>
 #include <grass/glocale.h>
-#include <grass/parson.h>
+#include <grass/gjson.h>
 
 #include "local_proto.h"
 
@@ -133,12 +133,12 @@ int main(int argc, char *argv[])
 
     if (strcmp(fopt->answer, "json") == 0) {
         format = JSON;
-        root_value = json_value_init_object();
+        root_value = G_json_value_init_object();
         if (root_value == NULL) {
             G_fatal_error(
                 _("Failed to initialize JSON object. Out of memory?"));
         }
-        root_object = json_object(root_value);
+        root_object = G_json_object(root_value);
     }
     else if (strcmp(fopt->answer, "shell") == 0) {
         format = SHELL;
@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
             _("Flag 'g' is deprecated and will be removed in a future "
               "release. Please use format=shell instead."));
         if (format == JSON) {
-            json_value_free(root_value);
+            G_json_value_free(root_value);
             G_fatal_error(_("Cannot use the -g flag with format=json; "
                             "please select only one option."));
         }
@@ -175,14 +175,15 @@ int main(int argc, char *argv[])
                 GRASS_VERSION_DATE);
         break;
     case JSON:
-        json_object_set_string(root_object, "version", GRASS_VERSION_NUMBER);
-        json_object_set_string(root_object, "date", GRASS_VERSION_DATE);
-        json_object_set_string(root_object, "revision", GRASS_VERSION_GIT);
+        G_json_object_set_string(root_object, "version", GRASS_VERSION_NUMBER);
+        G_json_object_set_string(root_object, "date", GRASS_VERSION_DATE);
+        G_json_object_set_string(root_object, "revision", GRASS_VERSION_GIT);
 
         snprintf(date_str, sizeof(date_str), "%d-%02d-%02d", YEAR, MONTH, DAY);
-        json_object_set_string(root_object, "build_date", date_str);
-        json_object_set_string(root_object, "build_platform", ARCH);
-        json_object_set_number(root_object, "build_off_t_size", sizeof(off_t));
+        G_json_object_set_string(root_object, "build_date", date_str);
+        G_json_object_set_string(root_object, "build_platform", ARCH);
+        G_json_object_set_number(root_object, "build_off_t_size",
+                                 sizeof(off_t));
         break;
     }
 
@@ -194,7 +195,7 @@ int main(int argc, char *argv[])
             fputs(COPYING, stdout);
             break;
         case JSON:
-            json_object_set_string(root_object, "copyright", COPYING);
+            G_json_object_set_string(root_object, "copyright", COPYING);
             break;
         }
     }
@@ -207,7 +208,7 @@ int main(int argc, char *argv[])
             fputs(CITING, stdout);
             break;
         case JSON:
-            json_object_set_string(root_object, "citation", CITING);
+            G_json_object_set_string(root_object, "citation", CITING);
             break;
         }
     }
@@ -221,8 +222,8 @@ int main(int argc, char *argv[])
             fprintf(stdout, "\n");
             break;
         case JSON:
-            json_object_set_string(root_object, "build_info",
-                                   GRASS_CONFIGURE_PARAMS);
+            G_json_object_set_string(root_object, "build_info",
+                                     GRASS_CONFIGURE_PARAMS);
             break;
         }
     }
@@ -243,8 +244,9 @@ int main(int argc, char *argv[])
                 fprintf(stdout, "libgis date: %s\n", rev_time);
                 break;
             case JSON:
-                json_object_set_string(root_object, "libgis_revision", rev_ver);
-                json_object_set_string(root_object, "libgis_date", rev_time);
+                G_json_object_set_string(root_object, "libgis_revision",
+                                         rev_ver);
+                G_json_object_set_string(root_object, "libgis_date", rev_time);
                 break;
             }
         }
@@ -267,8 +269,8 @@ int main(int argc, char *argv[])
                       " Report this to developers or packagers.\n"));
                 break;
             case JSON:
-                json_object_set_null(root_object, "libgis_revision");
-                json_object_set_null(root_object, "libgis_date");
+                G_json_object_set_null(root_object, "libgis_revision");
+                G_json_object_set_null(root_object, "libgis_date");
                 G_warning(
                     "GRASS GIS libgis version and date number not available");
                 break;
@@ -305,7 +307,7 @@ int main(int argc, char *argv[])
                 fprintf(stdout, "PROJ: %s\n", proj_str);
                 break;
             case JSON:
-                json_object_set_string(root_object, "proj", proj_str);
+                G_json_object_set_string(root_object, "proj", proj_str);
                 break;
             }
         }
@@ -318,7 +320,7 @@ int main(int argc, char *argv[])
                 fprintf(stdout, "PROJ: %s\n", proj);
                 break;
             case JSON:
-                json_object_set_string(root_object, "proj", proj);
+                G_json_object_set_string(root_object, "proj", proj);
                 break;
             }
         }
@@ -331,7 +333,7 @@ int main(int argc, char *argv[])
             fprintf(stdout, "GDAL/OGR: %s\n", GDAL_RELEASE_NAME);
             break;
         case JSON:
-            json_object_set_string(root_object, "gdal", GDAL_RELEASE_NAME);
+            G_json_object_set_string(root_object, "gdal", GDAL_RELEASE_NAME);
             break;
         }
 #else
@@ -344,7 +346,7 @@ int main(int argc, char *argv[])
                     _("GRASS not compiled with GDAL/OGR support"));
             break;
         case JSON:
-            json_object_set_null(root_object, "gdal");
+            G_json_object_set_null(root_object, "gdal");
             break;
         }
 #endif
@@ -357,7 +359,7 @@ int main(int argc, char *argv[])
             fprintf(stdout, "GEOS: %s\n", GEOS_VERSION);
             break;
         case JSON:
-            json_object_set_string(root_object, "geos", GEOS_VERSION);
+            G_json_object_set_string(root_object, "geos", GEOS_VERSION);
             break;
         }
 #else
@@ -369,7 +371,7 @@ int main(int argc, char *argv[])
             fprintf(stdout, "%s\n", _("GRASS not compiled with GEOS support"));
             break;
         case JSON:
-            json_object_set_null(root_object, "geos");
+            G_json_object_set_null(root_object, "geos");
             break;
         }
 #endif
@@ -382,7 +384,7 @@ int main(int argc, char *argv[])
             fprintf(stdout, "SQLite: %s\n", SQLITE_VERSION);
             break;
         case JSON:
-            json_object_set_string(root_object, "sqlite", SQLITE_VERSION);
+            G_json_object_set_string(root_object, "sqlite", SQLITE_VERSION);
             break;
         }
 #else
@@ -395,7 +397,7 @@ int main(int argc, char *argv[])
                     _("GRASS not compiled with SQLite support"));
             break;
         case JSON:
-            json_object_set_null(root_object, "sqlite");
+            G_json_object_set_null(root_object, "sqlite");
             break;
         }
 #endif
@@ -403,13 +405,13 @@ int main(int argc, char *argv[])
 
     if (format == JSON) {
         char *serialized_string = NULL;
-        serialized_string = json_serialize_to_string_pretty(root_value);
+        serialized_string = G_json_serialize_to_string_pretty(root_value);
         if (serialized_string == NULL) {
             G_fatal_error(_("Failed to initialize pretty JSON string."));
         }
         puts(serialized_string);
-        json_free_serialized_string(serialized_string);
-        json_value_free(root_value);
+        G_json_free_serialized_string(serialized_string);
+        G_json_value_free(root_value);
     }
 
     return (EXIT_SUCCESS);
