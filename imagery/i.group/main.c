@@ -38,7 +38,7 @@ static int remove_subgroup_files(char group[INAME_LEN],
                                  int k);
 static void print_subgroups(const char *group, const char *mapset,
                             enum OutputFormat format, JSON_Object *root_object);
-static int list_group_json(const struct Ref *ref, JSON_Object *root_object);
+static void list_files_json(const struct Ref *ref, JSON_Object *root_object);
 
 int main(int argc, char *argv[])
 {
@@ -244,7 +244,7 @@ int main(int argc, char *argv[])
                     json_object_set_string(root_object, "group", group);
                     json_object_set_string(root_object, "subgroup",
                                            sgrp->answer);
-                    list_group_json(&ref, root_object);
+                    list_files_json(&ref, root_object);
                     break;
                 }
             }
@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
                     break;
                 case JSON:
                     json_object_set_string(root_object, "group", group);
-                    list_group_json(&ref, root_object);
+                    list_files_json(&ref, root_object);
                     break;
                 }
             }
@@ -576,15 +576,14 @@ static void print_subgroups(const char *group, const char *mapset,
 }
 
 /*!
- * \brief List maps in a group (JSON)
+ * \brief List files in a (sub)group (JSON)
  *
  * List map in map@mapset form.
  *
  * \param ref group reference (set with I_get_group_ref())
- * \param root_object where to append JSON
- * \return 0
+ * \param root_object JSON object to which data will be appended.
  */
-static int list_group_json(const struct Ref *ref, JSON_Object *root_object)
+static void list_files_json(const struct Ref *ref, JSON_Object *root_object)
 {
     int i;
     char map_str[1024];
@@ -602,6 +601,4 @@ static int list_group_json(const struct Ref *ref, JSON_Object *root_object)
     }
 
     json_object_set_value(root_object, "maps", list_value);
-
-    return 0;
 }
