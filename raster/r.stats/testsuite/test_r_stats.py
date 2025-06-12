@@ -26,7 +26,7 @@ class TestRStats(TestCase):
     def setUpClass(cls):
         """Set up temporary computational region"""
         cls.use_temp_region()
-        cls.runModule("g.region", rows=10, cols=10)
+        cls.runModule("g.region", n=20, s=0, e=20, w=0, rows=20, cols=20)
 
     @classmethod
     def tearDownClass(cls):
