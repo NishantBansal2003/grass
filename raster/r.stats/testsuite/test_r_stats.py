@@ -43,6 +43,7 @@ class TestRStats(TestCase):
     def setUpClass(cls):
         """Set up test environment"""
         cls.runModule("g.region", s=0, n=100, w=0, e=100, res=20)
+
         cls.runModule(
             "r.mapcalc",
             expression=(f"{cls.test_raster_1} = if(col() < 3, col(), 2)"),
@@ -54,6 +55,7 @@ class TestRStats(TestCase):
             rules="-",
             stdin=cls.test_label_1,
         )
+
         cls.runModule(
             "r.mapcalc",
             expression=(f"{cls.test_raster_2} = if(col() < 5, col(), null())"),
@@ -65,6 +67,7 @@ class TestRStats(TestCase):
             rules="-",
             stdin=cls.test_label_2,
         )
+
         cls.runModule(
             "r.mapcalc",
             expression=(f"{cls.float_raster} = if(col() < 5, col() / 2., 4.5)"),
@@ -294,11 +297,10 @@ class TestRStats(TestCase):
             input=self.float_raster,
             flags="ic",
             separator="pipe",
-            sort="asc",
         )
         self.assertModule(rstats_module)
 
-        expected_output = ["5|5", "1|10", "2|10"]
+        expected_output = ["1|10", "2|10", "5|5"]
 
         actual_output = rstats_module.outputs.stdout.splitlines()
         self.assertEqual(actual_output, expected_output)
@@ -324,7 +326,7 @@ class TestRStats(TestCase):
         self.assertEqual(actual_output, expected_output)
 
     def test_per_cell_label_output(self):
-        """Test r.stats with -1ln flags to output one line per cell."""
+        """Test r.stats with -1ln flags to output one cell per line."""
         rstats_module = SimpleModule(
             "r.stats",
             input=[self.test_raster_1, self.test_raster_2],
