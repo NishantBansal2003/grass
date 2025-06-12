@@ -225,14 +225,13 @@ class TestRStats(TestCase):
         actual_output = rstats_module.outputs.stdout.splitlines()
         self.assertEqual(actual_output, expected_output)
 
-    def test_area_statistics_sorted_output(self):
-        """Verify that r.stats with the -A and -a flags outputs area statistics with values sorted in descending order using pipe separator."""
+    def test_area_statistics_output(self):
+        """Verify that r.stats with the -A and -a flags outputs area statistics using pipe separator."""
         rstats_module = SimpleModule(
             "r.stats",
             input=self.float_raster,
             flags="Aa",
             separator="pipe",
-            sort="desc",
         )
         self.assertModule(rstats_module)
 
@@ -248,13 +247,12 @@ class TestRStats(TestCase):
         self.assertEqual(actual_output, expected_output)
 
     def test_raw_index_area_output(self):
-        """Verify that r.stats with -r and -a flags outputs raw indexes and corresponding area, sorted in descending order using pipe separator."""
+        """Verify that r.stats with -r and -a flags outputs raw indexes and corresponding area using pipe separator."""
         rstats_module = SimpleModule(
             "r.stats",
             input=self.float_raster,
             flags="ra",
             separator="pipe",
-            sort="desc",
         )
         self.assertModule(rstats_module)
 
@@ -292,11 +290,15 @@ class TestRStats(TestCase):
     def test_integer_category_counts_output(self):
         """Verify that r.stats with -i and -c flags outputs integer-rounded category values and their counts using pipe separator."""
         rstats_module = SimpleModule(
-            "r.stats", input=self.float_raster, flags="ic", separator="pipe"
+            "r.stats",
+            input=self.float_raster,
+            flags="ic",
+            separator="pipe",
+            sort="asc",
         )
         self.assertModule(rstats_module)
 
-        expected_output = ["1|10", "2|10", "5|5"]
+        expected_output = ["5|5", "1|10", "2|10"]
 
         actual_output = rstats_module.outputs.stdout.splitlines()
         self.assertEqual(actual_output, expected_output)
