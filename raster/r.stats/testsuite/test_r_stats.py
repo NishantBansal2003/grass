@@ -25,7 +25,10 @@ class TestRStats(TestCase):
     test_raster_1 = "test_raster_1"
     test_raster_2 = "test_raster_2"
     float_raster = "float_raster"
-    label_data = (
+
+    test_label_1 = "1:trees\n2:3:water\n"
+    test_label_2 = "1:trees\n2:4:buildings\n"
+    float_label = (
         "0:0.5:0 slope\n"
         "0.5:1:1 degrees\n"
         "1:1.5:2 degrees\n"
@@ -45,8 +48,22 @@ class TestRStats(TestCase):
             expression=(f"{cls.test_raster_1} = if(col() < 3, col(), 2)"),
         )
         cls.runModule(
+            "r.category",
+            map=cls.test_raster_1,
+            separator=":",
+            rules="-",
+            stdin=cls.test_label_1,
+        )
+        cls.runModule(
             "r.mapcalc",
             expression=(f"{cls.test_raster_2} = if(col() < 5, col(), null())"),
+        )
+        cls.runModule(
+            "r.category",
+            map=cls.test_raster_2,
+            separator=":",
+            rules="-",
+            stdin=cls.test_label_2,
         )
         cls.runModule(
             "r.mapcalc",
@@ -57,7 +74,7 @@ class TestRStats(TestCase):
             map=cls.float_raster,
             separator=":",
             rules="-",
-            stdin=cls.label_data,
+            stdin=cls.float_label,
         )
 
     @classmethod
@@ -315,26 +332,26 @@ class TestRStats(TestCase):
         self.assertModule(rstats_module)
 
         expected_output = [
-            "1||1|",
-            "2||2|",
-            "2||3|",
-            "2||4|",
-            "1||1|",
-            "2||2|",
-            "2||3|",
-            "2||4|",
-            "1||1|",
-            "2||2|",
-            "2||3|",
-            "2||4|",
-            "1||1|",
-            "2||2|",
-            "2||3|",
-            "2||4|",
-            "1||1|",
-            "2||2|",
-            "2||3|",
-            "2||4|",
+            "1|trees|1|trees",
+            "2|water|2|buildings",
+            "2|water|3|buildings",
+            "2|water|4|buildings",
+            "1|trees|1|trees",
+            "2|water|2|buildings",
+            "2|water|3|buildings",
+            "2|water|4|buildings",
+            "1|trees|1|trees",
+            "2|water|2|buildings",
+            "2|water|3|buildings",
+            "2|water|4|buildings",
+            "1|trees|1|trees",
+            "2|water|2|buildings",
+            "2|water|3|buildings",
+            "2|water|4|buildings",
+            "1|trees|1|trees",
+            "2|water|2|buildings",
+            "2|water|3|buildings",
+            "2|water|4|buildings",
         ]
 
         actual_output = rstats_module.outputs.stdout.splitlines()
