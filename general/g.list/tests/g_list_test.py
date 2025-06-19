@@ -147,5 +147,6 @@ def test_verbose_listing_output(simple_dataset):
         "no region definition files available in current mapset",
         "no imagery group files available in current mapset",
     ]
+    print(gs.read_command("r.info", map="raster_test_1"))
     for line in expected:
         assert line in actual, f"Expected line not found: {line}"
