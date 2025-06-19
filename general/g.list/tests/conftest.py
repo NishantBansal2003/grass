@@ -2,54 +2,56 @@ import os
 import grass.script as gs
 import pytest
 
-
-@pytest.fixture
-def setup_session(tmp_path_factory, monkeypatch):
-    """Creates a session with a mapset"""
-    tmp_path = tmp_path_factory.mktemp("simple_dataset")
-    location = "test_project"
-    gs.core._create_location_xy(tmp_path, location)  # pylint: disable=protected-access
-    with gs.setup.init(tmp_path / location, env=os.environ.copy()) as session:
-        for key, value in session.env.items():
-            monkeypatch.setenv(key, value)
-        yield session
+TEST_MAPSETS = ["test_1", "test_2"]
 
 
 @pytest.fixture
-def simple_dataset(setup_session):
+def simple_dataset(tmp_path_factory, monkeypatch):
     """Set up a GRASS session for the tests."""
-    mapset = "test_1"
+    tmp_path = tmp_path_factory.mktemp("simple_dataset")
     project = "test_project"
 
-    gs.run_command("g.region", rows=3, cols=3, env=setup_session.env)
+    # Create a test project
+    gs.create_project(tmp_path, project)
 
-    # Create Mock Mapsets and data in each
-    gs.run_command(
-        "g.mapset", project=project, mapset=mapset, flags="c", env=setup_session.env
-    )
+    # Initialize the GRASS session
+    with gs.setup.init(tmp_path / project, env=os.environ.copy()) as session:
+        for key, value in session.env.items():
+            monkeypatch.setenv(key, value)
 
-    # Create a raster in this mapset
-    gs.mapcalc(f"raster_{mapset} = int(row())", env=setup_session.env)
-    gs.run_command(
-        "r.support",
-        map=f"raster_{mapset}",
-        title=f"Raster title {mapset}",
-        env=setup_session.env,
-    )
+        gs.run_command("g.region", rows=3, cols=3, env=session.env)
 
-    # Create a vector in this mapset
-    gs.run_command(
-        "v.mkgrid",
-        map=f"vector_{mapset}",
-        grid=[10, 10],
-        type="point",
-        env=setup_session.env,
-    )
-    gs.run_command(
-        "v.support",
-        map=f"vector_{mapset}",
-        map_name=f"Vector title {mapset}",
-        env=setup_session.env,
-    )
+        # Create Mock Mapsets and data in each
+        for mapset in TEST_MAPSETS:
+            gs.run_command(
+                "g.mapset", project=project, mapset=mapset, flags="c", env=session.env
+            )
 
-    yield setup_session
+            # Create a raster in this mapset
+            gs.mapcalc(f"raster_{mapset} = int(row())", env=session.env)
+            gs.run_command(
+                "r.support",
+                map=f"raster_{mapset}",
+                title=f"Raster title {mapset}",
+                env=session.env,
+            )
+
+            # Create a vector in this mapset
+            gs.run_command(
+                "v.mkgrid",
+                map=f"vector_{mapset}",
+                grid=[10, 10],
+                type="point",
+                env=session.env,
+            )
+            gs.run_command(
+                "v.support",
+                map=f"vector_{mapset}",
+                map_name=f"Vector title {mapset}",
+                env=session.env,
+            )
+
+        # Set current mapset to test_1
+        gs.run_command("g.mapset", project=project, mapset="test_1", env=session.env)
+
+        yield session
