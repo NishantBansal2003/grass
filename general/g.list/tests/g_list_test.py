@@ -131,23 +131,7 @@ def test_verbose_listing_output(simple_dataset):
     actual = gs.read_command(
         "g.list", type="all", flags="f", mapset="*", env=simple_dataset.env
     ).splitlines()
-    expected = [
-        "raster files available in mapset <test_1>:",
-        "raster_test_1      Raster title test_1",
-        "no raster files available in mapset <PERMANENT>",
-        "raster files available in mapset <test_2>:",
-        "raster_test_2      Raster title test_2",
-        "vector files available in mapset <test_1>:",
-        "vector_test_1      Vector title test_1",
-        "no vector files available in mapset <PERMANENT>",
-        "vector files available in mapset <test_2>:",
-        "vector_test_2      Vector title test_2",
-        "no 3D raster files available in current mapset",
-        "no label files available in current mapset",
-        "no region definition files available in current mapset",
-        "no imagery group files available in current mapset",
-    ]
-    import sys
-    print(gs.read_command("r.info", map="raster_test_1"), file=sys.__stdout__)
-    for line in expected:
-        assert line in actual, f"Expected line not found: {line}"
+    expected = gs.read_command(
+        "r.info", map="raster_test_1", env=simple_dataset.env
+    ).splitlines()
+    assert expected == actual
