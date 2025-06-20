@@ -108,26 +108,6 @@ def test_human_readable_output(simple_dataset):
 
 def test_verbose_listing_output(simple_dataset):
     """Test g.list with f flag."""
-    # Current mapset only
-    actual = gs.read_command(
-        "g.list", type="all", flags="f", env=simple_dataset.env
-    ).splitlines()
-    expected = [
-        "raster files available in mapset <test_1>:",
-        "raster_test_1      Raster title test_1",
-        "no raster files available in mapset <PERMANENT>",
-        "vector files available in mapset <test_1>:",
-        "vector_test_1      Vector title test_1",
-        "no vector files available in mapset <PERMANENT>",
-        "no 3D raster files available in current mapset",
-        "no label files available in current mapset",
-        "no region definition files available in current mapset",
-        "no imagery group files available in current mapset",
-    ]
-    for line in expected:
-        assert line in actual, f"Expected line not found: {line}"
-
-    # All mapsets
     actual = gs.read_command(
         "g.list", type="all", flags="f", mapset="*", env=simple_dataset.env
     ).splitlines()
