@@ -153,7 +153,7 @@ int main(int argc, char *argv[])
     flag.flprint = G_define_flag();
     flag.flprint->key = 'f';
     flag.flprint->description = _("Print in one line (flat) in shell script "
-                                  "style (ignores format option)");
+                                  "style (ignores format parameter)");
     flag.flprint->guisection = _("Print");
 
     flag.res_set = G_define_flag();

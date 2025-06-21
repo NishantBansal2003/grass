@@ -101,10 +101,13 @@ the number of columns.
 The **-p** (or **-g**) option is recognized last. This means that all
 changes are applied to the region settings before printing occurs.
 
-The **-g** flag prints the current region settings in shell script
-style. This format can be given back to *g.region* on its command line.
+The ****format=shell** parameter prints the current region settings in shell
+script style. This format can be given back to *g.region* on its command line.
 This may also be used to save region settings as shell environment
-variables with the UNIX eval command, "`` eval `g.region -g` ``".
+variables with the UNIX eval command, "`` eval `g.region -p format=shell` ``".
+
+The **-g** flag is deprecated and will be removed in a future release. Please
+use **format=shell** instead.
 
 With **-u** flag current region is not updated even if one or more
 options for changing region is used (**res=**, **raster=**, etc). This
