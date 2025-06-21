@@ -395,16 +395,16 @@ int main(int argc, char *argv[])
         flag.dflt, flag.savedefault, flag.print, flag.lprint, flag.eprint,
         flag.center, flag.gmt_style, flag.wms_style, flag.dist_res, flag.nangle,
         flag.z, flag.bbox, flag.gprint, flag.res_set, flag.noupdate,
-        parm.region, parm.raster, parm.raster3d, parm.vect, parm.north,
-        parm.south, parm.east, parm.west, parm.top, parm.bottom, parm.rows,
-        parm.cols, parm.res, parm.res3, parm.nsres, parm.ewres, parm.nsres3,
-        parm.ewres3, parm.tbres, parm.zoom, parm.align, parm.save, parm.grow,
-        flag.flprint, NULL);
+        flag.flprint, parm.region, parm.raster, parm.raster3d, parm.vect,
+        parm.north, parm.south, parm.east, parm.west, parm.top, parm.bottom,
+        parm.rows, parm.cols, parm.res, parm.res3, parm.nsres, parm.ewres,
+        parm.nsres3, parm.ewres3, parm.tbres, parm.zoom, parm.align, parm.save,
+        parm.grow, NULL);
     G_option_exclusive(flag.noupdate, flag.force, NULL);
     G_option_requires(flag.noupdate, flag.savedefault, flag.print, flag.lprint,
                       flag.eprint, flag.center, flag.gmt_style, flag.wms_style,
                       flag.dist_res, flag.nangle, flag.z, flag.bbox,
-                      flag.gprint, parm.save, flag.flprint, NULL);
+                      flag.gprint, flag.flprint, parm.save, NULL);
 
     if (G_parser(argc, argv))
         exit(EXIT_FAILURE);
