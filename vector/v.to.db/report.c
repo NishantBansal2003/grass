@@ -122,7 +122,7 @@ int report(enum OutputFormat format)
                 fsum += Values[i].d1;
             }
             json_object_set_string(units_object, "area", unit_name);
-            json_object_set_number(totals_object, "area", sum);
+            json_object_set_number(totals_object, "area", fsum);
             break;
         }
         break;
@@ -274,7 +274,7 @@ int report(enum OutputFormat format)
                 fsum += Values[i].d1;
             }
             json_object_set_string(units_object, "length", unit_name);
-            json_object_set_number(totals_object, "length", sum);
+            json_object_set_number(totals_object, "length", fsum);
             break;
         }
         break;
