@@ -96,10 +96,10 @@ class TestRRegressionLine(TestCase):
             "R": 0.89403830630087811,
             "N": 225000,
             "F": 896093.36628299998,
-            "meanX": 110.30757108713786,
-            "sdX": 20.311997672696272,
-            "meanY": 113.49829166406644,
-            "sdY": 23.718306793642626,
+            "x_mean": 110.30757108713786,
+            "x_stddev": 20.311997672696272,
+            "y_mean": 113.49829166406644,
+            "y_stddev": 23.718306793642626,
         }
         self.assertEqual(json.loads(module.outputs.stdout), expected)
 

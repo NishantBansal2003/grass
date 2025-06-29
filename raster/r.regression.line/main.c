@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
            "if file not specified)."));
 
     format_opt = G_define_standard_option(G_OPT_F_FORMAT);
-    format_opt->options = "plain,shell,csv,json";
+    format_opt->options = "plain,shell,json";
     format_opt->descriptions = ("plain;Human readable text output;"
                                 "shell;shell script style text output;"
                                 "json;JSON (JavaScript Object Notation);");
@@ -206,10 +206,10 @@ int main(int argc, char *argv[])
         G_json_object_set_number(root_object, "R", R);
         G_json_object_set_number(root_object, "N", count);
         G_json_object_set_number(root_object, "F", F);
-        G_json_object_set_number(root_object, "meanX", meanX);
-        G_json_object_set_number(root_object, "sdX", sdX);
-        G_json_object_set_number(root_object, "meanY", meanY);
-        G_json_object_set_number(root_object, "sdY", sdY);
+        G_json_object_set_number(root_object, "x_mean", meanX);
+        G_json_object_set_number(root_object, "x_stddev", sdX);
+        G_json_object_set_number(root_object, "y_mean", meanY);
+        G_json_object_set_number(root_object, "y_stddev", sdY);
         break;
     }
 
