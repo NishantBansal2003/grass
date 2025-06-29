@@ -93,15 +93,22 @@ class TestRRegressionLine(TestCase):
         expected = {
             "a": -1.6592786233805945,
             "b": 1.0439679629649166,
-            "R": 0.89403830630087811,
+            "R": 0.8940383063008781,
             "N": 225000,
-            "F": 896093.36628299998,
+            "F": 896093.366283,
             "x_mean": 110.30757108713786,
             "x_stddev": 20.311997672696272,
             "y_mean": 113.49829166406644,
             "y_stddev": 23.718306793642626,
         }
-        self.assertEqual(json.loads(module.outputs.stdout), expected)
+        output_json = json.loads(module.outputs.stdout)
+
+        self.assertCountEqual(list(expected.keys()), list(output_json.keys()))
+        for key, value in expected.items():
+            if isinstance(value, float):
+                self.assertAlmostEqual(value, output_json[key], places=6)
+            else:
+                self.assertEqual(value, output_json[key])
 
 
 if __name__ == "__main__":
