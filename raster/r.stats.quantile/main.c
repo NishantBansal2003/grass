@@ -718,6 +718,14 @@ int main(int argc, char *argv[])
     reclass = flag.r->answer;
     print = flag.p->answer || flag.t->answer;
 
+    /* For backward compatibility */
+    if (!opt.fs->answer) {
+        if (strcmp(opt.format->answer, "csv") == 0)
+            opt.fs->answer = "comma";
+        else
+            opt.fs->answer = ":";
+    }
+
     if (!print && !opt.output->answers)
         G_fatal_error(_("Either -%c or %s= must be given"), flag.p->key,
                       opt.output->key);
@@ -745,14 +753,6 @@ int main(int argc, char *argv[])
                             "Please select only one output format."));
         }
         format = CSV;
-    }
-
-    /* For backward compatibility */
-    if (!opt.fs->answer) {
-        if (format == CSV)
-            opt.fs->answer = "comma";
-        else
-            opt.fs->answer = ":";
     }
 
     num_slots = atoi(opt.slots->answer);
