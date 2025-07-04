@@ -136,8 +136,7 @@ int main(int argc, char *argv[])
     flag.print = G_define_flag();
     flag.print->key = 'p';
     flag.print->answer = 1;
-    flag.print->description =
-        _("Do not create output maps; just print statistics");
+    flag.print->description = _("Print volume report on data");
 
     if (G_parser(argc, argv))
         exit(EXIT_FAILURE);
