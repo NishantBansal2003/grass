@@ -40,7 +40,7 @@ db.columns driver=sqlite table=archsites database='$GISDBASE/$LOCATION_NAME/$MAP
 
 ### List columns of table using Python
 
-```sh
+```python
 import grass.script as gs
 
 data = gs.parse_command("db.columns", table="bridges", format="json")
