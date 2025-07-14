@@ -131,7 +131,7 @@ int main(int argc, char **argv)
 
     /* For backward compatibility */
     if (!sep_opt->answer) {
-        if (strcmp(format_opt->answer, "csv") == 0)
+        if (format_opt->answer && strcmp(format_opt->answer, "csv") == 0)
             sep_opt->answer = "comma";
         else
             sep_opt->answer = "pipe";
