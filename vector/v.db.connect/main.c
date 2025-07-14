@@ -87,7 +87,6 @@ int main(int argc, char **argv)
 
     sep_opt = G_define_standard_option(G_OPT_F_SEP);
     sep_opt->label = _("Field separator for printing output");
-    sep_opt->answer = NULL;
     sep_opt->guisection = _("Print");
 
     format_opt = G_define_standard_option(G_OPT_F_FORMAT);
@@ -128,14 +127,6 @@ int main(int argc, char **argv)
 
     if (G_parser(argc, argv))
         exit(EXIT_FAILURE);
-
-    /* For backward compatibility */
-    if (!sep_opt->answer) {
-        if (format_opt->answer && strcmp(format_opt->answer, "csv") == 0)
-            sep_opt->answer = "comma";
-        else
-            sep_opt->answer = "pipe";
-    }
 
     // If no format option is specified, preserve backward compatibility
     if (format_opt->answer == NULL || format_opt->answer[0] == '\0') {
