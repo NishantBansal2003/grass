@@ -361,6 +361,22 @@ int main(int argc, char **argv)
                 db_close_database(driver);
                 db_shutdown_driver(driver);
             }
+
+            if (format == JSON) {
+                char *json_string =
+                    G_json_serialize_to_string_pretty(root_value);
+                if (!json_string) {
+                    G_json_value_free(root_value);
+                    G_fatal_error(
+                        _("Failed to serialize JSON to pretty format."));
+                }
+
+                puts(json_string);
+
+                G_json_free_serialized_string(json_string);
+                G_json_value_free(root_value);
+            }
+
         } /* end else num_dblinks */
     } /* end print/columns */
     else { /* define new dbln settings or delete */
@@ -479,19 +495,6 @@ int main(int argc, char **argv)
     } /* end define new dbln settings */
 
     Vect_close(&Map);
-
-    if (format == JSON) {
-        char *json_string = G_json_serialize_to_string_pretty(root_value);
-        if (!json_string) {
-            G_json_value_free(root_value);
-            G_fatal_error(_("Failed to serialize JSON to pretty format."));
-        }
-
-        puts(json_string);
-
-        G_json_free_serialized_string(json_string);
-        G_json_value_free(root_value);
-    }
 
     exit(EXIT_SUCCESS);
 }
