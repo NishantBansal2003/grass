@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
     double *meanX, meanY, *varX, varY, *sdX, sdY;
     double yest, yres; /* estimated y, residual */
     double /* sumYest, */ *SSerr_without;
-    int tmp[40];
+    char tmp[40];
 
     /* double SE; */
     /* double meanYest, meanYres, varYest, varYres, sdYest, sdYres; */
