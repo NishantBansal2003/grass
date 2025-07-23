@@ -13,6 +13,7 @@ class TestVWhatRast(TestCase):
     @classmethod
     def setUpClass(cls):
         """Set up test environment"""
+        cls.use_temp_region()
         cls.runModule("g.region", s=0, n=5, w=0, e=5, res=1)
         cls.runModule(
             "r.mapcalc",
@@ -27,6 +28,7 @@ class TestVWhatRast(TestCase):
     @classmethod
     def tearDownClass(cls):
         """Clean up test environment"""
+        cls.del_temp_region()
         cls.runModule(
             "g.remove",
             flags="f",
