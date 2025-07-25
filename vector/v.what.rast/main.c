@@ -346,7 +346,7 @@ int main(int argc, char *argv[])
         G_warning(_("%d points without category were skipped"), nocat_cnt);
 
     /* Sort cache by current region row */
-    qsort(cache, point_cnt, sizeof(struct order), by_row);
+    qsort(cache, point_cnt, sizeof(struct order), by_rowcol);
 
     /* Allocate space for raster row */
     if (out_type == CELL_TYPE)

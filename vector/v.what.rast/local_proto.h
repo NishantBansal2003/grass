@@ -13,6 +13,7 @@ struct order {
 enum OutputFormat { PLAIN, CSV, JSON };
 
 /* search.c */
+int by_rowcol(const void *, const void *);
 int by_row(const void *, const void *);
 int by_cat(const void *, const void *);
 int srch_cat(const void *, const void *);

@@ -1,5 +1,21 @@
 #include "local_proto.h"
 
+int by_rowcol(const void *ii, const void *jj)
+{
+    const struct order *i = ii, *j = jj;
+
+    /* primary key: row */
+    if (i->row != j->row)
+        return i->row - j->row;
+
+    /* secondary key: col */
+    if (i->col != j->col)
+        return i->col - j->col;
+
+    /* tertiary key: cat (optional) */
+    return i->cat - j->cat;
+}
+
 /* for qsort, order list by row */
 int by_row(const void *ii, const void *jj)
 {
