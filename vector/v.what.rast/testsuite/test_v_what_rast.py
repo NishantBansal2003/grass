@@ -7,6 +7,7 @@ class TestVWhatRast(TestCase):
     """Unit tests for the v.what.rast module"""
 
     test_raster = "test_raster"
+    test_v_raster = "test_v_raster"
     float_raster = "float_raster"
     test_vector = "test_vector"
 
@@ -24,7 +25,11 @@ class TestVWhatRast(TestCase):
             expression=(f"{cls.float_raster} = if(col() < 5, col() / 2., 4.5)"),
         )
         cls.runModule(
-            "r.to.vect", input=cls.float_raster, output=cls.test_vector, type="point"
+            "r.mapcalc",
+            expression=(f"{cls.test_v_raster} = row() + (col() - 1) * 5"),
+        )
+        cls.runModule(
+            "r.to.vect", input=cls.test_v_raster, output=cls.test_vector, type="point"
         )
 
     @classmethod
@@ -35,7 +40,7 @@ class TestVWhatRast(TestCase):
             "g.remove",
             flags="f",
             type="raster",
-            name=[cls.test_raster, cls.float_raster],
+            name=[cls.test_raster, cls.float_raster, cls.test_v_raster],
         )
         cls.runModule(
             "g.remove",
