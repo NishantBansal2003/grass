@@ -87,11 +87,10 @@ class TestRDistance(TestCase):
             "2:2:0:0.5:9.5:0.5:9.5",
         ]
 
-        self.assertEqual(
-            result,
-            expected_results,
-            "Mismatch in r.distance output for overlapping features",
-        )
+        for i, component in enumerate(result):
+            self.assertEqual(
+                component, expected_results[i], f"Mismatch at line {i + 1}"
+            )
 
         # Test with explicit 'plain' format
         module = SimpleModule(
@@ -111,11 +110,10 @@ class TestRDistance(TestCase):
 
         expected_results = ["*:*:0:0.5:9.5:0.5:9.5", "*:1:2:3.5:8.5:3.5:6.5"]
 
-        self.assertEqual(
-            result,
-            expected_results,
-            "Mismatch in r.distance output for reporting null objects as *",
-        )
+        for i, component in enumerate(result):
+            self.assertEqual(
+                component, expected_results[i], f"Mismatch at line {i + 1}"
+            )
 
         # Test with explicit 'plain' format
         module = SimpleModule(
@@ -138,11 +136,10 @@ class TestRDistance(TestCase):
             "2:1:2.8284271247:7.5:2.5:5.5:4.5:bottom right block:center block",
         ]
 
-        self.assertEqual(
-            result,
-            expected_results,
-            "Mismatch in r.distance output for reporting null objects as *",
-        )
+        for i, component in enumerate(result):
+            self.assertEqual(
+                component, expected_results[i], f"Mismatch at line {i + 1}"
+            )
 
         # Test with explicit 'plain' format
         module = SimpleModule(
@@ -188,11 +185,10 @@ class TestRDistance(TestCase):
             "2,2,0,0.5,9.5,0.5,9.5",
         ]
 
-        self.assertEqual(
-            result,
-            expected_results,
-            "Mismatch in r.distance output for overlapping features",
-        )
+        for i, component in enumerate(result):
+            self.assertEqual(
+                component, expected_results[i], f"Mismatch at line {i + 1}"
+            )
 
     def test_null_distance_csv(self):
         """Test r.distance when reporting null values with -n flag with CSV format."""
@@ -209,11 +205,10 @@ class TestRDistance(TestCase):
             "*,1,2,3.5,8.5,3.5,6.5",
         ]
 
-        self.assertEqual(
-            result,
-            expected_results,
-            "Mismatch in r.distance output for reporting null objects as *",
-        )
+        for i, component in enumerate(result):
+            self.assertEqual(
+                component, expected_results[i], f"Mismatch at line {i + 1}"
+            )
 
     def test_cat_labels_csv(self):
         """Test r.distance when reporting category labels with CSV format."""
@@ -230,11 +225,10 @@ class TestRDistance(TestCase):
             "2,1,2.8284271247,7.5,2.5,5.5,4.5,bottom right block,center block",
         ]
 
-        self.assertEqual(
-            result,
-            expected_results,
-            "Mismatch in r.distance output for reporting null objects as *",
-        )
+        for i, component in enumerate(result):
+            self.assertEqual(
+                component, expected_results[i], f"Mismatch at line {i + 1}"
+            )
 
     def assert_json_equal(self, expected, actual):
         if isinstance(expected, dict):
