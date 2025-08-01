@@ -258,10 +258,9 @@ static void print(struct ReportLine *line, struct Parms *parms,
         }
 
         /* print distance */
-        G_json_object_set_number(cell_object, "distance", line->distance);
-
         G_json_object_set_value(cell_object, "from_cell", from_cell_value);
         G_json_object_set_value(cell_object, "to_cell", to_cell_value);
+        G_json_object_set_number(cell_object, "distance", line->distance);
 
         /* add the cell object to the root array */
         G_json_array_append_value(root_array, cell_value);

@@ -1,3 +1,4 @@
+import json
 from grass.gunittest.case import TestCase
 from grass.gunittest.main import test
 from grass.gunittest.gmodules import SimpleModule
@@ -234,6 +235,142 @@ class TestRDistance(TestCase):
             expected_results,
             "Mismatch in r.distance output for reporting null objects as *",
         )
+
+    def assert_json_equal(self, expected, actual):
+        if isinstance(expected, dict):
+            self.assertIsInstance(actual, dict)
+            self.assertCountEqual(expected.keys(), actual.keys())
+            for key in expected:
+                self.assert_json_equal(expected[key], actual[key])
+        elif isinstance(expected, list):
+            self.assertIsInstance(actual, list)
+            self.assertEqual(len(expected), len(actual))
+            for exp_item, act_item in zip(expected, actual):
+                self.assert_json_equal(exp_item, act_item)
+        elif isinstance(expected, float):
+            self.assertAlmostEqual(expected, actual, places=6)
+        else:
+            self.assertEqual(expected, actual)
+
+    def test_distance_json(self):
+        """Test distance calculation between map1 and map2 with JSON format."""
+        module = SimpleModule("r.distance", map=("map1", "map2"), format="json")
+        self.assertModule(module)
+
+        expected_results = [
+            {
+                "from_cell": {"category": 1, "easting": 1.5, "northing": 8.5},
+                "to_cell": {"category": 1, "easting": 3.5, "northing": 6.5},
+                "distance": 2.8284271247461903,
+            },
+            {
+                "from_cell": {"category": 2, "easting": 7.5, "northing": 2.5},
+                "to_cell": {"category": 1, "easting": 5.5, "northing": 4.5},
+                "distance": 2.8284271247461903,
+            },
+        ]
+
+        result = json.loads(module.outputs.stdout)
+        self.assert_json_equal(expected_results, result)
+
+    def test_overlap_distance_json(self):
+        """Test r.distance when comparing a map to itself with overlapping features with JSON format."""
+        module = SimpleModule(
+            "r.distance", map=("map1", "map1"), flags="o", format="json"
+        )
+        self.assertModule(module)
+
+        expected_results = [
+            {
+                "from_cell": {"category": 1, "easting": 0.5, "northing": 9.5},
+                "to_cell": {"category": 1, "easting": 0.5, "northing": 9.5},
+                "distance": 0,
+            },
+            {
+                "from_cell": {"category": 1, "easting": 0.5, "northing": 9.5},
+                "to_cell": {"category": 2, "easting": 0.5, "northing": 9.5},
+                "distance": 0,
+            },
+            {
+                "from_cell": {"category": 2, "easting": 0.5, "northing": 9.5},
+                "to_cell": {"category": 1, "easting": 0.5, "northing": 9.5},
+                "distance": 0,
+            },
+            {
+                "from_cell": {"category": 2, "easting": 0.5, "northing": 9.5},
+                "to_cell": {"category": 2, "easting": 0.5, "northing": 9.5},
+                "distance": 0,
+            },
+        ]
+
+        result = json.loads(module.outputs.stdout)
+        self.assert_json_equal(expected_results, result)
+
+    def test_null_distance_json(self):
+        """Test r.distance when reporting null values with -n flag with JSON format."""
+        module = SimpleModule(
+            "r.distance", map=("map3", "map2"), flags="n", format="json"
+        )
+        self.assertModule(module)
+
+        expected_results = [
+            {
+                "from_cell": {"category": None, "easting": 0.5, "northing": 9.5},
+                "to_cell": {"category": None, "easting": 0.5, "northing": 9.5},
+                "distance": 0,
+            },
+            {
+                "from_cell": {"category": None, "easting": 3.5, "northing": 8.5},
+                "to_cell": {"category": 1, "easting": 3.5, "northing": 6.5},
+                "distance": 2,
+            },
+        ]
+
+        result = json.loads(module.outputs.stdout)
+        self.assert_json_equal(expected_results, result)
+
+    def test_cat_labels_json(self):
+        """Test r.distance when reporting category labels with JSON format."""
+        module = SimpleModule(
+            "r.distance", map=("map1", "map2"), flags="l", format="json"
+        )
+        self.assertModule(module)
+
+        expected_results = [
+            {
+                "from_cell": {
+                    "category": 1,
+                    "easting": 1.5,
+                    "northing": 8.5,
+                    "label": "top left block",
+                },
+                "to_cell": {
+                    "category": 1,
+                    "easting": 3.5,
+                    "northing": 6.5,
+                    "label": "center block",
+                },
+                "distance": 2.8284271247461903,
+            },
+            {
+                "from_cell": {
+                    "category": 2,
+                    "easting": 7.5,
+                    "northing": 2.5,
+                    "label": "bottom right block",
+                },
+                "to_cell": {
+                    "category": 1,
+                    "easting": 5.5,
+                    "northing": 4.5,
+                    "label": "center block",
+                },
+                "distance": 2.8284271247461903,
+            },
+        ]
+
+        result = json.loads(module.outputs.stdout)
+        self.assert_json_equal(expected_results, result)
 
 
 if __name__ == "__main__":
