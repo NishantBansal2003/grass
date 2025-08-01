@@ -35,7 +35,7 @@ void parse(int argc, char *argv[], struct Parms *parms)
         _("Name of two input raster maps for computing inter-class distances");
 
     fs = G_define_standard_option(G_OPT_F_SEP);
-    fs->answer = ":"; /* colon is default output fs */
+    fs->answer = NULL;
 
     sort = G_define_option();
     sort->key = "sort";
@@ -85,6 +85,14 @@ void parse(int argc, char *argv[], struct Parms *parms)
         G_fatal_error(_("Raster map <%s> not found"), name);
     if (Rast_map_type(name, mapset) != CELL_TYPE)
         G_fatal_error(_("Raster map <%s> is not CELL"), name);
+
+    /* For backward compatibility */
+    if (!fs->answer) {
+        if (strcmp(frmt->answer, "csv") == 0)
+            fs->answer = "comma";
+        else
+            fs->answer = ":"; /* colon is default output fs */
+    }
 
     parms->map2.fullname = G_fully_qualified_name(name, mapset);
 

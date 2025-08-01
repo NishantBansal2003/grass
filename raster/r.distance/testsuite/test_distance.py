@@ -152,6 +152,89 @@ class TestRDistance(TestCase):
         result_plain = module.outputs.stdout.strip().splitlines()
         self.assertEqual(result_plain, result)
 
+    def test_distance_csv(self):
+        """Test distance calculation between map1 and map2 with CSV format."""
+        module = SimpleModule("r.distance", map=("map1", "map2"), format="csv")
+        self.assertModule(module)
+
+        result = module.outputs.stdout.strip().splitlines()
+
+        expected_results = [
+            "from_category,to_category,distance,from_easting,from_northing,to_easting,to_northing",
+            "1,1,2.8284271247,1.5,8.5,3.5,6.5",
+            "2,1,2.8284271247,7.5,2.5,5.5,4.5",
+        ]
+
+        for i, component in enumerate(result):
+            self.assertEqual(
+                component, expected_results[i], f"Mismatch at line {i + 1}"
+            )
+
+    def test_overlap_distance_csv(self):
+        """Test r.distance when comparing a map to itself with overlapping features with CSV format."""
+        module = SimpleModule(
+            "r.distance", map=("map1", "map1"), flags="o", format="csv"
+        )
+        self.assertModule(module)
+
+        result = module.outputs.stdout.strip().splitlines()
+
+        expected_results = [
+            "from_category,to_category,distance,from_easting,from_northing,to_easting,to_northing",
+            "1,1,0,0.5,9.5,0.5,9.5",
+            "1,2,0,0.5,9.5,0.5,9.5",
+            "2,1,0,0.5,9.5,0.5,9.5",
+            "2,2,0,0.5,9.5,0.5,9.5",
+        ]
+
+        self.assertEqual(
+            result,
+            expected_results,
+            "Mismatch in r.distance output for overlapping features",
+        )
+
+    def test_null_distance_csv(self):
+        """Test r.distance when reporting null values with -n flag with CSV format."""
+        module = SimpleModule(
+            "r.distance", map=("map3", "map2"), flags="n", format="csv"
+        )
+        self.assertModule(module)
+
+        result = module.outputs.stdout.strip().splitlines()
+
+        expected_results = [
+            "from_category,to_category,distance,from_easting,from_northing,to_easting,to_northing",
+            "*,*,0,0.5,9.5,0.5,9.5",
+            "*,1,2,3.5,8.5,3.5,6.5",
+        ]
+
+        self.assertEqual(
+            result,
+            expected_results,
+            "Mismatch in r.distance output for reporting null objects as *",
+        )
+
+    def test_cat_labels_csv(self):
+        """Test r.distance when reporting category labels with CSV format."""
+        module = SimpleModule(
+            "r.distance", map=("map1", "map2"), flags="l", format="csv"
+        )
+        self.assertModule(module)
+
+        result = module.outputs.stdout.strip().splitlines()
+
+        expected_results = [
+            "from_category,to_category,distance,from_easting,from_northing,to_easting,to_northing,from_label,to_label",
+            "1,1,2.8284271247,1.5,8.5,3.5,6.5,top left block,center block",
+            "2,1,2.8284271247,7.5,2.5,5.5,4.5,bottom right block,center block",
+        ]
+
+        self.assertEqual(
+            result,
+            expected_results,
+            "Mismatch in r.distance output for reporting null objects as *",
+        )
+
 
 if __name__ == "__main__":
     test()
