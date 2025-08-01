@@ -21,7 +21,7 @@ class TestRDistance(TestCase):
             map="map1",
             rules="-",
             separator=":",
-            stdin="""1:top left block\n2:bottom right block\n""",
+            stdin="1:top left block\n2:bottom right block\n",
         )
         # Create 'map2' with a block in the center
         cls.runModule(
@@ -35,7 +35,7 @@ class TestRDistance(TestCase):
             map="map2",
             rules="-",
             separator=":",
-            stdin="""1:center block\n""",
+            stdin="1:center block\n",
         )
         # Create 'map3' with null values
         cls.runModule("r.mapcalc", expression="map3 = null()", overwrite=True)
