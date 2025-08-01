@@ -71,7 +71,7 @@ void report(struct Parms *parms)
                 "to_easting", parms->fs, "to_northing");
 
         if (parms->labels) {
-            fprintf(stdout, "%s%s%s", parms->fs, "from_label", parms->fs,
+            fprintf(stdout, "%s%s%s%s", parms->fs, "from_label", parms->fs,
                     "to_label");
         }
 
@@ -260,8 +260,8 @@ static void print(struct ReportLine *line, struct Parms *parms,
         /* print distance */
         G_json_object_set_number(cell_object, "distance", line->distance);
 
-        G_json_object_set_object(cell_object, "from_cell", from_cell_object);
-        G_json_object_set_object(cell_object, "to_cell", to_cell_object);
+        G_json_object_set_value(cell_object, "from_cell", from_cell_value);
+        G_json_object_set_value(cell_object, "to_cell", to_cell_value);
 
         /* add the cell object to the root array */
         G_json_array_append_value(root_array, cell_value);
