@@ -82,7 +82,8 @@ class TestVWhatModule(TestCase):
             map=[self.line_vector],
             coordinates=[2.5, 2.5, 4, 4],
             distance=0.5,
-            flags="jda",
+            flags="da",
+            format="json",
         )
         self.assertModule(module)
         result = json.loads(module.outputs.stdout)
@@ -177,7 +178,8 @@ class TestVWhatModule(TestCase):
             map=[self.line_vector],
             coordinates=[2.5, 2.5, 4, 4],
             distance=0.5,
-            flags="jma",
+            flags="ma",
+            format="json",
         )
         self.assertModule(module)
         result = json.loads(module.outputs.stdout)
@@ -222,7 +224,8 @@ class TestVWhatModule(TestCase):
             map=[self.line_vector],
             coordinates=[4, 4],
             distance=0.5,
-            flags="jdma",
+            flags="dma",
+            format="json",
         )
         self.assertModule(module)
         result = json.loads(module.outputs.stdout)
@@ -390,7 +393,8 @@ class TestVWhatModule(TestCase):
             map="hospitals",
             coordinates=[542690.4, 204802.7],
             distance=2000000,
-            flags="ja",
+            flags="a",
+            format="json",
         )
         self.assertModule(module)
         result = json.loads(module.outputs.stdout)
@@ -437,7 +441,8 @@ class TestVWhatModule(TestCase):
             map="urbanarea",
             coordinates=[643554.273559, 227215.046524],
             distance=20000,
-            flags="jda",
+            flags="da",
+            format="json",
         )
         self.assertModule(module)
         result = json.loads(module.outputs.stdout)
@@ -477,7 +482,8 @@ class TestVWhatModule(TestCase):
             map=[self.area_vector],
             coordinates=[2.5, 2.5, 4, 4],
             distance=0.5,
-            flags="jm",
+            flags="m",
+            format="json",
         )
         self.assertModule(module)
         result = json.loads(module.outputs.stdout)
@@ -610,7 +616,8 @@ class TestVWhatModule(TestCase):
             map=[self.area_vector],
             coordinates=[2.5, 2.5, 4, 4],
             distance=0.5,
-            flags="jmd",
+            flags="md",
+            format="json",
         )
         self.assertModule(module)
         result = json.loads(module.outputs.stdout)
@@ -756,7 +763,8 @@ class TestVWhatModule(TestCase):
             map=[self.point_vector_3d],
             coordinates=[2.5, 2.5, 4, 4],
             distance=0.5,
-            flags="jd",
+            flags="d",
+            format="json",
         )
         self.assertModule(module)
         result = json.loads(module.outputs.stdout)
@@ -789,7 +797,7 @@ class TestVWhatModule(TestCase):
             map=[self.line_vector_3d],
             coordinates=[542690.4, 204802.7],
             distance=2000000,
-            flags="j",
+            format="json",
         )
         self.assertModule(module)
         result = json.loads(module.outputs.stdout)

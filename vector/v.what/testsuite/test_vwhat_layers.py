@@ -189,6 +189,11 @@ class TestMultiLayerMap(TestCase):
         self.assertModule(self.vwhat)
         self.assertLooksLike(reference=out1, actual=self.vwhat.outputs.stdout)
 
+        # Test with explicit 'plain' format
+        self.vwhat.inputs["format"].value = "plain"
+        self.assertModule(self.vwhat)
+        self.assertLooksLike(reference=out1, actual=self.vwhat.outputs.stdout)
+
     @unittest.expectedFailure
     def test_print_options(self):
         self.vwhat.flags["a"].value = True
