@@ -32,7 +32,7 @@
 int main(int argc, char **argv)
 {
     struct {
-        struct Flag *print, *topo, *shell, *json, *multiple;
+        struct Flag *print, *topo, *shell, *json, *multiple, *connection;
     } flag;
     struct {
         struct Option *map, *field, *coords, *maxdist, *type, *cols, *format;
@@ -125,6 +125,12 @@ int main(int argc, char **argv)
         _("Print multiple features if overlapping features are found");
     flag.multiple->guisection = _("Print");
 
+    flag.connection = G_define_flag();
+    flag.connection->key = 'i';
+    flag.connection->description =
+        _("Print attribute database connection information");
+    flag.connection->guisection = _("Print");
+
     G_option_exclusive(flag.shell, flag.json, opt.format, NULL);
 
     if (G_parser(argc, argv))
@@ -188,6 +194,18 @@ int main(int argc, char **argv)
         else {
             format = PLAIN;
         }
+    }
+
+    /* For backward compatibility */
+    if (format != JSON) {
+        if (!flag.connection->answer) {
+            G_verbose_message(_(
+                "Flag 'i' prints attribute database connection information. "
+                "It is currently always enabled for backward compatibility, "
+                "but this behavior will be removed in a future release. "
+                "Please use the 'i' flag together with the 'a' flag instead."));
+        }
+        flag.connection->answer = 1;
     }
 
     if (format == JSON) {
@@ -264,7 +282,8 @@ int main(int argc, char **argv)
             if (ret == 3 && (ch == ',' || ch == ' ' || ch == '\t')) {
                 what(Map, nvects, vect, xval, yval, maxd, type,
                      flag.topo->answer, flag.print->answer, format,
-                     flag.multiple->answer, field, columns, root_array);
+                     flag.multiple->answer, field, columns, root_array,
+                     flag.connection->answer);
             }
             else {
                 G_warning(_("Unknown input format, skipping: '%s'"), buf);
@@ -279,7 +298,7 @@ int main(int argc, char **argv)
             yval = atof(opt.coords->answers[i + 1]);
             what(Map, nvects, vect, xval, yval, maxd, type, flag.topo->answer,
                  flag.print->answer, format, flag.multiple->answer, field,
-                 columns, root_array);
+                 columns, root_array, flag.connection->answer);
         }
     }
 

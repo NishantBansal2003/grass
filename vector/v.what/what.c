@@ -175,7 +175,7 @@ void coord2bbox(double east, double north, double maxdist,
 
 void write_cats(struct Map_info *Map, int field, struct line_cats *Cats,
                 int showextra, enum OutputFormat format, char *columns,
-                JSON_Array *cats_array)
+                JSON_Array *cats_array, int show_connection)
 {
     int i, j;
     char *formbuf1;
@@ -227,31 +227,44 @@ void write_cats(struct Map_info *Map, int field, struct line_cats *Cats,
             if (Fi != NULL && showextra) {
                 char *form;
 
-                switch (format) {
-                case SHELL:
-                    fprintf(stdout,
+                if (show_connection) {
+                    switch (format) {
+                    case SHELL:
+                        fprintf(
+                            stdout,
                             "Driver=%s\nDatabase=%s\nTable=%s\nKey_column=%s\n",
                             Fi->driver, Fi->database, Fi->table, Fi->key);
-                    break;
-                case LEGACY_JSON:
-                    /* escape backslash to create valid JSON */
-                    formbuf2 = G_str_replace(Fi->database, "\\", "\\\\");
-                    fprintf(
-                        stdout,
-                        ",\n\"Driver\": \"%s\",\n\"Database\": "
-                        "\"%s\",\n\"Table\": \"%s\",\n\"Key_column\": \"%s\"",
-                        Fi->driver, formbuf2, Fi->table, Fi->key);
-                    G_free(formbuf2);
-                    break;
-                case JSON:
-                    G_json_object_set_string(cat_object, "key_column", Fi->key);
-                    break;
-                default:
-                    fprintf(stdout,
-                            _("\nDriver: %s\nDatabase: %s\nTable: %s\nKey "
-                              "column: %s\n"),
-                            Fi->driver, Fi->database, Fi->table, Fi->key);
-                    break;
+                        break;
+                    case LEGACY_JSON:
+                        /* escape backslash to create valid JSON */
+                        formbuf2 = G_str_replace(Fi->database, "\\", "\\\\");
+                        fprintf(stdout,
+                                ",\n\"Driver\": \"%s\",\n\"Database\": "
+                                "\"%s\",\n\"Table\": \"%s\",\n\"Key_column\": "
+                                "\"%s\"",
+                                Fi->driver, formbuf2, Fi->table, Fi->key);
+                        G_free(formbuf2);
+                        break;
+                    case JSON:
+                        /* escape backslash to create valid JSON */
+                        formbuf2 = G_str_replace(Fi->database, "\\", "\\\\");
+                        G_json_object_set_string(cat_object, "driver",
+                                                 Fi->driver);
+                        G_json_object_set_string(cat_object, "database",
+                                                 formbuf2);
+                        G_json_object_set_string(cat_object, "table",
+                                                 Fi->table);
+                        G_json_object_set_string(cat_object, "key_column",
+                                                 Fi->key);
+                        G_free(formbuf2);
+                        break;
+                    default:
+                        fprintf(stdout,
+                                _("\nDriver: %s\nDatabase: %s\nTable: %s\nKey "
+                                  "column: %s\n"),
+                                Fi->driver, Fi->database, Fi->table, Fi->key);
+                        break;
+                    }
                 }
 
                 if (format == JSON) {
@@ -300,7 +313,7 @@ void write_cats(struct Map_info *Map, int field, struct line_cats *Cats,
 void what(struct Map_info *Map, int nvects, char **vect, double east,
           double north, double maxdist, int qtype, int topo, int showextra,
           enum OutputFormat format, int multiple, int *field, char *columns,
-          JSON_Array *root_array)
+          JSON_Array *root_array, int show_connection)
 {
     struct line_pnts *Points;
     struct line_cats *Cats;
@@ -890,7 +903,7 @@ void what(struct Map_info *Map, int nvects, char **vect, double east,
             }
 
             write_cats(&Map[i], field[i], Cats, showextra, format, columns,
-                       cats_array);
+                       cats_array, show_connection);
             if (format == LEGACY_JSON && multiple)
                 fprintf(stdout, "}");
 
@@ -1150,7 +1163,7 @@ void what(struct Map_info *Map, int nvects, char **vect, double east,
             }
 
             write_cats(&Map[i], field[i], Cats, showextra, format, columns,
-                       cats_array);
+                       cats_array, show_connection);
             if (format == LEGACY_JSON && multiple)
                 fprintf(stdout, "}");
 

@@ -409,7 +409,6 @@ class TestVWhatModule(TestCase):
                     {
                         "layer": 1,
                         "category": 22,
-                        "key_column": "cat",
                         "attributes": {
                             "cat": 22,
                             "OBJECTID": 22,
@@ -441,7 +440,7 @@ class TestVWhatModule(TestCase):
             map="urbanarea",
             coordinates=[643554.273559, 227215.046524],
             distance=20000,
-            flags="da",
+            flags="dai",
             format="json",
         )
         self.assertModule(module)
@@ -461,6 +460,9 @@ class TestVWhatModule(TestCase):
                     {
                         "layer": 1,
                         "category": 55,
+                        "driver": "sqlite",
+                        "database": "...",
+                        "table": "urbanarea",
                         "key_column": "cat",
                         "attributes": {
                             "cat": 55,
