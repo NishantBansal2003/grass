@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-30 15:44+0000\n"
+"POT-Creation-Date: 2025-09-06 15:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,11 +75,15 @@ msgstr ""
 #: ../vector/v.class/main.c:264 ../vector/v.class/main.c:271
 #: ../vector/v.db.connect/main.c:152 ../vector/v.distance/main.c:310
 #: ../vector/v.info/print.c:866 ../vector/v.what.rast/main.c:144
+#: ../vector/v.what/main.c:226 ../vector/v.what/what.c:508
+#: ../vector/v.what/what.c:652 ../vector/v.what/what.c:705
+#: ../vector/v.what/what.c:898 ../vector/v.what/what.c:1037
+#: ../vector/v.what/what.c:1158
 msgid "Failed to initialize JSON array. Out of memory?"
 msgstr ""
 
 #: ../db/db.columns/main.c:98 ../db/db.connect/main.c:243
-#: ../general/g.findfile/main.c:36 ../general/g.list/list.c:139
+#: ../general/g.findfile/main.c:36 ../general/g.list/list.c:140
 #: ../general/g.mapset/main.c:37 ../general/g.mapsets/list.c:34
 #: ../misc/m.measure/main.c:182 ../raster/r.distance/report.c:138
 #: ../raster/r.regression.line/main.c:269
@@ -87,6 +91,7 @@ msgstr ""
 #: ../raster/r.stats.quantile/main.c:472 ../raster/r.volume/main.c:448
 #: ../raster3d/r3.info/main.c:993 ../vector/v.class/main.c:379
 #: ../vector/v.db.connect/main.c:434 ../vector/v.what.rast/main.c:694
+#: ../vector/v.what/main.c:321
 msgid "Failed to serialize JSON to pretty format."
 msgstr ""
 
@@ -224,9 +229,10 @@ msgstr ""
 #: ../vector/v.to.db/parse.c:136 ../vector/v.to.db/parse.c:141
 #: ../vector/v.to.db/parse.c:147 ../vector/v.univar/main.c:152
 #: ../vector/v.vect.stats/main.c:229 ../vector/v.vect.stats/main.c:236
-#: ../vector/v.what.rast/main.c:112 ../vector/v.what/main.c:94
-#: ../vector/v.what/main.c:99 ../vector/v.what/main.c:104
-#: ../vector/v.what/main.c:109 ../vector/v.what/main.c:115
+#: ../vector/v.what.rast/main.c:112 ../vector/v.what/main.c:100
+#: ../vector/v.what/main.c:105 ../vector/v.what/main.c:111
+#: ../vector/v.what/main.c:118 ../vector/v.what/main.c:126
+#: ../vector/v.what/main.c:134 ../vector/v.what/main.c:142
 msgid "Print"
 msgstr ""
 
@@ -257,6 +263,7 @@ msgstr ""
 #: ../raster/r.regression.multi/main.c:179
 #: ../raster/r.univar/r.univar_main.c:103
 #: ../raster/r.univar/r3.univar_main.c:65 ../vector/v.univar/main.c:131
+#: ../vector/v.what/main.c:124
 msgid "This flag is deprecated and will be removed in a future release. Use format=shell instead."
 msgstr ""
 
@@ -288,11 +295,12 @@ msgstr ""
 
 #: ../db/db.connect/main.c:115 ../general/g.region/main.c:389
 #: ../misc/m.measure/main.c:67 ../raster3d/r3.info/main.c:98
+#: ../vector/v.what/main.c:97
 msgid "plain;Plain text output;shell;shell script style output;json;JSON (JavaScript Object Notation);"
 msgstr ""
 
 #: ../db/db.connect/main.c:144 ../general/g.findfile/main.c:187
-#: ../general/g.list/list.c:121 ../general/g.mapset/main.c:118
+#: ../general/g.list/list.c:122 ../general/g.mapset/main.c:118
 #: ../general/g.mapsets/list.c:13 ../general/g.proj/output.c:54
 #: ../general/g.proj/output.c:360 ../general/g.region/main.c:471
 #: ../general/g.version/main.c:140 ../misc/m.measure/main.c:87
@@ -311,6 +319,10 @@ msgstr ""
 #: ../vector/v.db.connect/main.c:399 ../vector/v.distance/main.c:1578
 #: ../vector/v.info/print.c:824 ../vector/v.info/print.c:860
 #: ../vector/v.univar/main.c:630 ../vector/v.what.rast/main.c:628
+#: ../vector/v.what/what.c:202 ../vector/v.what/what.c:273
+#: ../vector/v.what/what.c:441 ../vector/v.what/what.c:539
+#: ../vector/v.what/what.c:680 ../vector/v.what/what.c:728
+#: ../vector/v.what/what.c:933
 msgid "Failed to initialize JSON object. Out of memory?"
 msgstr ""
 
@@ -323,6 +335,7 @@ msgstr ""
 #: ../raster/r.univar/r3.univar_main.c:176
 #: ../scripts/db.univar/db.univar.py:122
 #: ../scripts/v.db.univar/v.db.univar.py:99 ../vector/v.univar/main.c:177
+#: ../vector/v.what/main.c:195
 msgid "Flag 'g' is deprecated and will be removed in a future release. Please use format=shell instead."
 msgstr ""
 
@@ -551,7 +564,7 @@ msgstr ""
 #: ../raster/r.in.ascii/main.c:78 ../raster/r.reclass/main.c:67
 #: ../raster/r.recode/main.c:60 ../raster3d/r3.in.ascii/main.c:87
 #: ../vector/v.edit/args.c:94 ../vector/v.segment/main.c:81
-#: ../vector/v.what/main.c:77
+#: ../vector/v.what/main.c:79
 msgid "'-' for standard input"
 msgstr ""
 
@@ -2101,7 +2114,7 @@ msgstr ""
 #: ../vector/v.type/main.c:38 ../vector/v.univar/main.c:94
 #: ../vector/v.vect.stats/main.c:128 ../vector/v.vol.rst/main.c:218
 #: ../vector/v.voronoi/main.c:118 ../vector/v.what.rast/main.c:77
-#: ../vector/v.what.rast3/main.c:65 ../vector/v.what/main.c:61
+#: ../vector/v.what.rast3/main.c:65 ../vector/v.what/main.c:63
 #: ../visualization/ximgview/main.c:290
 msgid "vector"
 msgstr ""
@@ -5142,7 +5155,7 @@ msgstr ""
 #: ../locale/scriptstrings/v.what.strds_to_translate.c:5
 #: ../locale/scriptstrings/v.what.vect_to_translate.c:5
 #: ../raster/r.what/main.c:113 ../vector/v.what.rast/main.c:80
-#: ../vector/v.what.rast3/main.c:68 ../vector/v.what/main.c:63
+#: ../vector/v.what.rast3/main.c:68 ../vector/v.what/main.c:65
 msgid "position"
 msgstr ""
 
@@ -5153,7 +5166,7 @@ msgstr ""
 #: ../locale/scriptstrings/v.what.vect_to_translate.c:6
 #: ../raster/r.what.color/main.c:191 ../raster/r.what/main.c:112
 #: ../vector/v.what.rast/main.c:81 ../vector/v.what.rast3/main.c:69
-#: ../vector/v.what/main.c:62
+#: ../vector/v.what/main.c:64
 msgid "querying"
 msgstr ""
 
@@ -5818,12 +5831,12 @@ msgstr ""
 msgid "Launching <%s> GUI in the background, please wait..."
 msgstr ""
 
-#: ../general/g.list/list.c:167 ../general/g.region/main.c:543
+#: ../general/g.list/list.c:168 ../general/g.region/main.c:543
 #, c-format
 msgid "Unable to read header of 3D raster map <%s@%s>"
 msgstr ""
 
-#: ../general/g.list/list.c:176
+#: ../general/g.list/list.c:177
 #, c-format
 msgid "Unable to open vector map <%s@%s> on topological level"
 msgstr ""
@@ -30299,6 +30312,7 @@ msgstr ""
 
 #: ../raster/r.univar/r.univar_main.c:101
 #: ../raster/r.univar/r3.univar_main.c:63 ../vector/v.univar/main.c:129
+#: ../vector/v.what/main.c:122
 msgid "Print the stats in shell script style [deprecated]"
 msgstr ""
 
@@ -31796,7 +31810,7 @@ msgstr ""
 msgid "Name of existing raster map(s) to query"
 msgstr ""
 
-#: ../raster/r.what/main.c:123 ../vector/v.what/main.c:76
+#: ../raster/r.what/main.c:123 ../vector/v.what/main.c:78
 msgid "Coordinates for query"
 msgstr ""
 
@@ -47280,93 +47294,113 @@ msgid_plural "%d records updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../vector/v.what/main.c:64
+#: ../vector/v.what/main.c:66
 msgid "Queries a vector map at given locations."
 msgstr ""
 
-#: ../vector/v.what/main.c:84
+#: ../vector/v.what/main.c:86
 msgid "Query threshold distance"
 msgstr ""
 
-#: ../vector/v.what/main.c:85
+#: ../vector/v.what/main.c:87
 msgid "Threshold"
 msgstr ""
 
-#: ../vector/v.what/main.c:88
+#: ../vector/v.what/main.c:90
 msgid "Name of attribute column(s)"
 msgstr ""
 
-#: ../vector/v.what/main.c:89
+#: ../vector/v.what/main.c:91
 msgid "Default: all columns"
 msgstr ""
 
-#: ../vector/v.what/main.c:93
-msgid "Print topological information (debugging)"
-msgstr ""
-
-#: ../vector/v.what/main.c:98
+#: ../vector/v.what/main.c:104
 msgid "Print attribute information"
 msgstr ""
 
-#: ../vector/v.what/main.c:103
-msgid "Print the stats in shell script style"
+#: ../vector/v.what/main.c:110
+msgid "Print attribute database connection information"
 msgstr ""
 
-#: ../vector/v.what/main.c:108
-msgid "Print the stats in JSON"
+#: ../vector/v.what/main.c:115
+msgid "Print topological information (debugging)"
 msgstr ""
 
-#: ../vector/v.what/main.c:114
-msgid "Print multiple features if overlapping features are found"
+#: ../vector/v.what/main.c:117
+msgid "Prints internal information for topology debugging"
 msgstr ""
 
-#: ../vector/v.what/main.c:131
+#: ../vector/v.what/main.c:130
+msgid "Print the stats in JSON [deprecated]"
+msgstr ""
+
+#: ../vector/v.what/main.c:132
+msgid "This flag is deprecated and will be removed in a future release. Use format=json instead."
+msgstr ""
+
+#: ../vector/v.what/main.c:139
+msgid "Print multiple features for each map if they meet the criteria"
+msgstr ""
+
+#: ../vector/v.what/main.c:141
+msgid "For JSON, this places features under a \"features\" key"
+msgstr ""
+
+#: ../vector/v.what/main.c:160
 msgid "No input vector maps!"
 msgstr ""
 
-#: ../vector/v.what/main.c:201
+#: ../vector/v.what/main.c:190
+msgid "Flag 'j' is deprecated and will be removed in a future release. Please use format=json instead."
+msgstr ""
+
+#: ../vector/v.what/main.c:215
+msgid "Flag 'i' prints attribute database connection information. It is currently always enabled for backward compatibility, but this behavior will be removed in a future release. Please use the 'i' flag together with the 'a' flag instead."
+msgstr ""
+
+#: ../vector/v.what/main.c:272
 #, c-format
 msgid "Number of given vector maps (%d) differs from number of layers (%d)"
 msgstr ""
 
-#: ../vector/v.what/main.c:211
+#: ../vector/v.what/main.c:282
 #, c-format
 msgid "You must build topology on vector map <%s>"
 msgstr ""
 
-#: ../vector/v.what/main.c:229
+#: ../vector/v.what/main.c:301
 #, c-format
 msgid "Unknown input format, skipping: '%s'"
 msgstr ""
 
-#: ../vector/v.what/what.c:46
+#: ../vector/v.what/what.c:47
 msgid "Cannot open driver"
 msgstr ""
 
-#: ../vector/v.what/what.c:54
+#: ../vector/v.what/what.c:55
 msgid "Cannot open database"
 msgstr ""
 
-#: ../vector/v.what/what.c:68
+#: ../vector/v.what/what.c:69
 msgid "Cannot open select cursor"
 msgstr ""
 
-#: ../vector/v.what/what.c:75
+#: ../vector/v.what/what.c:76
 msgid "Cannot fetch next record"
 msgstr ""
 
-#: ../vector/v.what/what.c:78
+#: ../vector/v.what/what.c:79
 msgid "No database record"
 msgstr ""
 
-#: ../vector/v.what/what.c:182
+#: ../vector/v.what/what.c:222
 #, c-format
 msgid ""
 "Layer: %d\n"
 "Category: %d\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:208
+#: ../vector/v.what/what.c:263
 #, c-format
 msgid ""
 "\n"
@@ -47376,12 +47410,12 @@ msgid ""
 "Key column: %s\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:388
+#: ../vector/v.what/what.c:493
 #, c-format
 msgid "Nothing found.\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:486
+#: ../vector/v.what/what.c:635
 #, c-format
 msgid ""
 "Id: %d\n"
@@ -47390,12 +47424,12 @@ msgid ""
 "Right: %d\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:489 ../vector/v.what/what.c:567
+#: ../vector/v.what/what.c:638 ../vector/v.what/what.c:794
 #, c-format
 msgid "Length: %f\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:509
+#: ../vector/v.what/what.c:667
 #, c-format
 msgid ""
 "Node[%d]=%d\n"
@@ -47403,7 +47437,7 @@ msgid ""
 "Coordinates=%.6f,%.6f,%.6f\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:515
+#: ../vector/v.what/what.c:673
 #, c-format
 msgid ""
 ",\n"
@@ -47412,7 +47446,7 @@ msgid ""
 "\"Coordinates\": %.6f,%.6f,%.6f"
 msgstr ""
 
-#: ../vector/v.what/what.c:521
+#: ../vector/v.what/what.c:696
 #, c-format
 msgid ""
 "Node[%d]: %d\n"
@@ -47420,77 +47454,77 @@ msgid ""
 "Coordinates: %.6f, %.6f, %.6f\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:541
+#: ../vector/v.what/what.c:739
 #, c-format
 msgid ""
 "Id: %d\n"
 "Angle: %.8f\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:564
+#: ../vector/v.what/what.c:791
 #, c-format
 msgid "Type: %s\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:565
+#: ../vector/v.what/what.c:792
 #, c-format
 msgid "Id: %d\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:586
+#: ../vector/v.what/what.c:821
 #, c-format
 msgid "Point height: %f\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:609
+#: ../vector/v.what/what.c:852
 #, c-format
 msgid "Line height: %f\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:629
+#: ../vector/v.what/what.c:886
 #, c-format
 msgid ""
 "Line height min: %f\n"
 "Line height max: %f\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:674
+#: ../vector/v.what/what.c:969
 #, c-format
 msgid ""
 "Type: Area\n"
 "Area height: %f\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:688
+#: ../vector/v.what/what.c:992
 #, c-format
 msgid "Type: Area\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:713
+#: ../vector/v.what/what.c:1029
 #, c-format
 msgid ""
 "Area: %d\n"
 "Number of isles: %d\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:728
+#: ../vector/v.what/what.c:1056
 #, c-format
 msgid "Isle[%d]: %d\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:748
+#: ../vector/v.what/what.c:1099
 #, c-format
 msgid "Island: %d In area: %d\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:770
+#: ../vector/v.what/what.c:1142
 #, c-format
 msgid ""
 "Sq Meters: %.3f\n"
 "Hectares: %.3f\n"
 msgstr ""
 
-#: ../vector/v.what/what.c:772
+#: ../vector/v.what/what.c:1144
 #, c-format
 msgid ""
 "Acres: %.3f\n"
